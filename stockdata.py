@@ -39,7 +39,6 @@ def pull_monthly_data_from_api(api_key, symbol, data_type):
     return response.json()
 
 def pull_weekly_data_from_api(api_key, symbol, data_type):
-    import requests
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={symbol}&apikey={api_key}&datatype={data_type}'
     response = requests.get(url)
     if response.status_code != 200:
