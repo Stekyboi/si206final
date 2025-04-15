@@ -91,6 +91,48 @@ def insert_weekly_data_into_db(db_name, table_name, data):
     conn.commit()
     conn.close()
 
+def insert_weekly_data_test(db_name, table_name, data, n):
+    # Process the data in chunks of n
+    dates = list(data['Weekly Adjusted Time Series']) 
+    total_dates = len(dates) 
+    start_index = 0
+    while start_index < total_dates:
+    # Select a chunk of up to n dates.
+        chunk_dates = dates[start_index:start_index + n]
+
+        # Open a new connection to the database for this chunk.
+        conn = sqlite3.connect(db_name)
+        cur = conn.cursor()
+
+        # Loop over the current n data points and insert into the table.
+        for date in chunk_dates:
+            day_data = data['Weekly Adjusted Time Series'][date]
+            open_price = day_data['1. open']
+            high_price = day_data['2. high']
+            low_price = day_data['3. low']
+            close_price = day_data['4. close']
+            adjusted_close_price = day_data['5. adjusted close']
+            volume = day_data['6. volume']
+            dividend_amount = day_data['7. dividend amount']
+
+            cur.execute(f"""
+                INSERT OR IGNORE INTO {table_name} 
+                (date, open, high, low, close, adjusted_close, volume, dividend_amount)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """, (date, open_price, high_price, low_price, close_price, adjusted_close_price, volume, dividend_amount))
+        
+        # Commit and close the connection.
+        conn.commit()
+        conn.close()
+
+        # Note the nth (or last) data point for the chunk.
+        last_date = chunk_dates[-1]
+        print(f"Inserted records up to: {last_date}")
+
+        # Move the start index forward by n.
+        start_index += n
+
+
 def visualize_data(db_name, table_name):
     
 
@@ -131,8 +173,8 @@ if __name__ == "__main__":
     create_db_and_table(db_name, 'SPY_weekly')
     print("Successfully created 'SPY_weekly' table")
 
-    insert_weekly_data_into_db(db_name, 'SPY_weekly', pull_weekly_data_from_api(api_key, ticker, data_type))
+    insert_weekly_data_test(db_name, 'SPY_weekly', pull_weekly_data_from_api(api_key, ticker, data_type), 25)
     print(f"Weekly data for {ticker} inserted into 'SPY_weekly', successfully.")
 
     visualize_data(db_name, 'SPY_weekly')
-    print(f"Data visualization for 'SPY_weekly' completed successfully.")
+    print("Data visualization for 'SPY_weekly' completed successfully.")
