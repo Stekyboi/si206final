@@ -129,12 +129,15 @@ def fetch_articles(api_key, start_date, end_date, query, cursor=None):
         params['cursor'] = cursor
 
     response = requests.get(BASE_URL, headers=headers, params=params)
-    if response.status_code != 200:
+    if response.status_code == 429:
         log(f"Error {response.status_code}: {response.text}")
-        return [], None
+        return [], None, 429
+    elif response.status_code != 200:
+        log(f"Error {response.status_code}: {response.text}")
+        return [], None, response.status_code
 
     data = response.json()
-    return data.get("data", []), data.get("next_cursor")
+    return data.get("data", []), data.get("next_cursor"), None
 
 # --- Progress Tracking ---
 def save_progress(year, month):
@@ -168,7 +171,7 @@ def run_backfill(api_key, db_path, query, end_year=2015, start_year=2025, start_
             if api_calls >= TOTAL_API_CALL_LIMIT:
                 log("Reached API call limit.")
                 return
-            articles, cursor = fetch_articles(
+            articles, cursor, error = fetch_articles(
                 api_key,
                 month_start.strftime('%Y-%m-%d'),
                 month_end.strftime('%Y-%m-%d'),
@@ -176,6 +179,13 @@ def run_backfill(api_key, db_path, query, end_year=2015, start_year=2025, start_
                 cursor
             )
             api_calls += 1
+
+            #checking for error 429
+            if error == 429:
+                log("Encountered rate limiting (HTTP 429). Saving progress and stopping further requests.")
+                save_progress(current.year, current.month)
+                return
+
             all_articles.extend(articles)
             time.sleep(1)
 
