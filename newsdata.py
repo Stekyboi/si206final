@@ -1,69 +1,200 @@
 import sqlite3
-import json
 import requests
-import matplotlib.pyplot as plt
-import pandas as pd
+import json
+import os
+from datetime import datetime, timedelta
+import time
+from tqdm import tqdm
 
+# --- Constants ---
+PROGRESS_FILE = "news_backfill_progress.json"
+LOG_FILE = "news_backfill.log"
+DB_PATH = "news_articles.db"
+API_KEY_FILE = "api_key_news.txt"
+ARTICLES_PER_INSERT = 25
+API_CALLS_PER_MONTH = 2
+TOTAL_API_CALL_LIMIT = 300
+BASE_URL = "https://api.newsdatahub.com/v1/news"
+QUERY = "politics OR business OR finance OR technology OR government OR international OR economy"
+
+# --- Logging ---
+def log(message):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"[{timestamp}] {message}\n")
+    print(message)
+
+# --- API Key ---
 def get_api_key(filepath):
     with open(filepath, 'r', encoding='utf-8') as file:
-        api_key = file.readline().strip()
-        if not api_key:
-            raise Exception("API key file is empty.")
-        return api_key
-    
-def create_news_db_and_table(db_path, table_name):
-    conn = sqlite3.connect(db_path)
+        return file.readline().strip()
+
+# --- Database Setup ---
+def create_db_tables():
+    conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    create_query = f"""
-                CREATE TABLE IF NOT EXISTS {table_name} (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT,
-                pub_date TEXT,
-                language TEXT,
-                sent_pos REAL,
-                sent_neg REAL,
-                sent_neu REAL);
-                """
-    cur.execute(create_query)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS articles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            article_uuid TEXT UNIQUE,
+            title TEXT,
+            pub_date TEXT,
+            year INTEGER,
+            month INTEGER,
+            day INTEGER,
+            language TEXT
+        )
+    """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS sentiment (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            article_id INTEGER,
+            sent_pos REAL,
+            sent_neg REAL,
+            sent_neu REAL,
+            FOREIGN KEY(article_id) REFERENCES articles(id)
+        )
+    """)
     conn.commit()
     conn.close()
 
-def pull_data_from_api(api_key):
-    BASE_URL = 'https://api.newsdatahub.com/v1/news'
+# --- Insertion ---
+def insert_news_data_into_db(db_path, articles):
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    inserted_total = 0
 
-    headers = { 
-        'X-Api-Key': api_key,
-        'User-Agent': 'YourApp/1.0'
+    for i in range(0, len(articles), ARTICLES_PER_INSERT):
+        chunk = articles[i:i+ARTICLES_PER_INSERT]
+        inserted = 0
+
+        for article in chunk:
+            article_id = article.get("id")
+            title = article.get("title")
+            pub_date = article.get("pub_date")
+            language = article.get("language")
+            sentiment = article.get("sentiment", {})
+
+            try:
+                dt = datetime.fromisoformat(pub_date)
+                year, month, day = dt.year, dt.month, dt.day
+            except Exception as e:
+                log(f"Date parse error: {e}")
+                continue
+
+            try:
+                cur.execute("""
+                    INSERT OR IGNORE INTO articles 
+                    (article_uuid, title, pub_date, year, month, day, language)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (article_id, title, pub_date, year, month, day, language))
+
+                cur.execute("SELECT id FROM articles WHERE article_uuid = ?", (article_id,))
+                article_row = cur.fetchone()
+                if not article_row:
+                    continue
+                fk_id = article_row[0]
+
+                cur.execute("""
+                    INSERT INTO sentiment (article_id, sent_pos, sent_neg, sent_neu)
+                    VALUES (?, ?, ?, ?)
+                """, (
+                    fk_id,
+                    sentiment.get("pos", 0.0),
+                    sentiment.get("neg", 0.0),
+                    sentiment.get("neu", 0.0)
+                ))
+                inserted += 1
+            except sqlite3.Error as err:
+                log(f"SQLite error: {err}")
+                continue
+
+        conn.commit()
+        inserted_total += inserted
+        log(f"Inserted {inserted} articles in this batch.")
+
+    conn.close()
+    log(f"Inserted {inserted_total} total articles this month.")
+
+# --- Fetching ---
+def fetch_articles(api_key, start_date, end_date, query, cursor=None):
+    headers = {'X-Api-Key': api_key}
+    params = {
+        'q': query,
+        'start_date': start_date,
+        'end_date': end_date,
+        'language': 'en',
     }
+    if cursor:
+        params['cursor'] = cursor
 
-    params = {'q': 'politics AND business AND finance AND society'}
     response = requests.get(BASE_URL, headers=headers, params=params)
     if response.status_code != 200:
-        raise Exception(f"API request failed with status code {response.status_code}")
-    return response.json()
+        log(f"Error {response.status_code}: {response.text}")
+        return [], None
 
-def insert_news_data_into_db(db_path, table_name, data):
-    conn = sqlite3.connect(db_path)
-    cur = conn.cursor()
+    data = response.json()
+    return data.get("data", []), data.get("next_cursor")
 
-    for article in data.get("data", []):
-        title = article.get("title")
-        pub_date = article.get("pub_date")
-        language = article.get("language")
-        sentiment = article.get("sentiment", {})
+# --- Progress Tracking ---
+def save_progress(year, month):
+    with open(PROGRESS_FILE, "w") as f:
+        json.dump({"last_year": year, "last_month": month}, f)
 
-        sent_pos = sentiment.get("pos", 0.0)
-        sent_neg = sentiment.get("neg", 0.0)
-        sent_neu = sentiment.get("neu", 0.0)
+def load_progress(default_year, default_month):
+    if os.path.exists(PROGRESS_FILE):
+        with open(PROGRESS_FILE, "r") as f:
+            progress = json.load(f)
+            return progress.get("last_year", default_year), progress.get("last_month", default_month)
+    return default_year, default_month
 
-        cur.execute(f"""
-            INSERT INTO {table_name} 
-            (title, pub_date, language, sent_pos, sent_neg, sent_neu)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (title, pub_date, language, sent_pos, sent_neg, sent_neu))
+# --- Main Orchestrator ---
+def run_backfill(api_key, db_path, query, end_year=2015, start_year=2025, start_month=3):
+    year, month = load_progress(start_year, start_month)
+    current = datetime(year, month, 1)
+    end = datetime(end_year, 1, 1)
+    api_calls = 0
 
-    conn.commit()
-    conn.close()
+    while current >= end and api_calls + API_CALLS_PER_MONTH <= TOTAL_API_CALL_LIMIT:
+        month_start = current.replace(day=1)
+        month_end = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+
+        log(f"Fetching month: {current.strftime('%Y-%m')}")
+
+        cursor = None
+        all_articles = []
+
+        for _ in range(API_CALLS_PER_MONTH):
+            if api_calls >= TOTAL_API_CALL_LIMIT:
+                log("Reached API call limit.")
+                return
+            articles, cursor = fetch_articles(
+                api_key,
+                month_start.strftime('%Y-%m-%d'),
+                month_end.strftime('%Y-%m-%d'),
+                query,
+                cursor
+            )
+            api_calls += 1
+            all_articles.extend(articles)
+            time.sleep(1)
+
+        if all_articles:
+            insert_news_data_into_db(db_path, all_articles)
+        else:
+            log("No articles retrieved for this month.")
+
+        save_progress(current.year, current.month)
+        # Move one month earlier
+        current = (current.replace(day=1) - timedelta(days=1)).replace(day=1)
+
+    log(f"Backfill finished. Total API calls: {api_calls}")
+
+# --- Main Execution ---
+if __name__ == "__main__":
+    api_key = get_api_key(API_KEY_FILE)
+    create_db_tables()
+    run_backfill(api_key, DB_PATH, QUERY)
 
 # def visualize_data(db_name, table_name):
 #     conn = sqlite3.connect(db_name)
@@ -81,17 +212,3 @@ def insert_news_data_into_db(db_path, table_name, data):
 #     plt.ylabel('Close Price')
 #     plt.legend()
 #     plt.show()
-
-if __name__ == "__main__":
-    api_key = get_api_key('api_key_news.txt')
-    print("API key retrieved successfully.")
-
-    db_path = 'news_data.db'
-    table_name = 'articles'
-
-    create_news_db_and_table(db_path, table_name)
-    print(f"Database '{db_path}' and table '{table_name}' created.")
-
-    news_data = pull_data_from_api(api_key)
-    insert_news_data_into_db(db_path, table_name, news_data)
-    print(f"News data inserted into '{table_name}' successfully.")

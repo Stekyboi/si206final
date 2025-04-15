@@ -1,0 +1,1211 @@
+[2025-04-10 10:42:40] Fetching 2015-01-01 to 2015-01-31...
+[2025-04-10 10:42:43] Retrieved 3 articles.
+[2025-04-10 10:42:43] Fetching 2015-02-01 to 2015-02-28...
+[2025-04-10 10:42:45] Retrieved 3 articles.
+[2025-04-10 10:42:45] Fetching 2015-03-01 to 2015-03-31...
+[2025-04-10 10:42:46] Retrieved 1 articles.
+[2025-04-10 10:42:46] Fetching 2015-04-01 to 2015-04-30...
+[2025-04-10 10:42:49] Retrieved 2 articles.
+[2025-04-10 10:42:49] Fetching 2015-05-01 to 2015-05-31...
+[2025-04-10 10:42:50] Retrieved 3 articles.
+[2025-04-10 10:42:50] Fetching 2015-06-01 to 2015-06-30...
+[2025-04-10 10:42:50] Retrieved 0 articles.
+[2025-04-10 10:42:50] Fetching 2015-07-01 to 2015-07-31...
+[2025-04-10 10:42:51] Retrieved 5 articles.
+[2025-04-10 10:42:51] Fetching 2015-08-01 to 2015-08-31...
+[2025-04-10 10:42:53] Retrieved 3 articles.
+[2025-04-10 10:42:53] Fetching 2015-09-01 to 2015-09-30...
+[2025-04-10 10:42:54] Retrieved 3 articles.
+[2025-04-10 10:42:54] Fetching 2015-10-01 to 2015-10-31...
+[2025-04-10 10:42:55] Retrieved 3 articles.
+[2025-04-10 10:42:55] Fetching 2015-11-01 to 2015-11-30...
+[2025-04-10 10:42:56] Retrieved 6 articles.
+[2025-04-10 10:42:56] Fetching 2015-12-01 to 2015-12-31...
+[2025-04-10 10:42:57] Retrieved 3 articles.
+[2025-04-10 10:42:57] Fetching 2016-01-01 to 2016-01-31...
+[2025-04-10 10:42:59] Retrieved 8 articles.
+[2025-04-10 10:42:59] Fetching 2016-02-01 to 2016-02-29...
+[2025-04-10 10:43:00] Retrieved 2 articles.
+[2025-04-10 10:43:00] Fetching 2016-03-01 to 2016-03-31...
+[2025-04-10 10:43:01] Retrieved 0 articles.
+[2025-04-10 10:43:01] Fetching 2016-04-01 to 2016-04-30...
+[2025-04-10 10:43:02] Retrieved 4 articles.
+[2025-04-10 10:43:02] Fetching 2016-05-01 to 2016-05-31...
+[2025-04-10 10:43:02] Retrieved 0 articles.
+[2025-04-10 10:43:02] Fetching 2016-06-01 to 2016-06-30...
+[2025-04-10 10:43:02] Retrieved 0 articles.
+[2025-04-10 10:43:02] Fetching 2016-07-01 to 2016-07-31...
+[2025-04-10 10:43:04] Retrieved 1 articles.
+[2025-04-10 10:43:04] Fetching 2016-08-01 to 2016-08-31...
+[2025-04-10 10:43:04] Retrieved 0 articles.
+[2025-04-10 10:43:04] Fetching 2016-09-01 to 2016-09-30...
+[2025-04-10 10:43:04] Retrieved 0 articles.
+[2025-04-10 10:43:04] Fetching 2016-10-01 to 2016-10-31...
+[2025-04-10 10:43:05] Retrieved 1 articles.
+[2025-04-10 10:43:05] Fetching 2016-11-01 to 2016-11-30...
+[2025-04-10 10:43:07] Retrieved 4 articles.
+[2025-04-10 10:43:07] Fetching 2016-12-01 to 2016-12-31...
+[2025-04-10 10:43:08] Retrieved 1 articles.
+[2025-04-10 10:43:08] Fetching 2017-01-01 to 2017-01-31...
+[2025-04-10 10:43:09] Retrieved 2 articles.
+[2025-04-10 10:43:09] Fetching 2017-02-01 to 2017-02-28...
+[2025-04-10 10:43:10] Error 429 on 2017-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:10] Retrieved 2 articles.
+[2025-04-10 10:43:10] Fetching 2017-03-01 to 2017-03-31...
+[2025-04-10 10:43:10] Error 429 on 2017-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:10] Retrieved 0 articles.
+[2025-04-10 10:43:10] Fetching 2017-04-01 to 2017-04-30...
+[2025-04-10 10:43:11] Error 429 on 2017-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:11] Retrieved 0 articles.
+[2025-04-10 10:43:11] Fetching 2017-05-01 to 2017-05-31...
+[2025-04-10 10:43:11] Error 429 on 2017-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:11] Retrieved 0 articles.
+[2025-04-10 10:43:11] Fetching 2017-06-01 to 2017-06-30...
+[2025-04-10 10:43:11] Error 429 on 2017-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:11] Retrieved 0 articles.
+[2025-04-10 10:43:11] Fetching 2017-07-01 to 2017-07-31...
+[2025-04-10 10:43:12] Error 429 on 2017-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:12] Retrieved 0 articles.
+[2025-04-10 10:43:12] Fetching 2017-08-01 to 2017-08-31...
+[2025-04-10 10:43:12] Error 429 on 2017-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:12] Retrieved 0 articles.
+[2025-04-10 10:43:12] Fetching 2017-09-01 to 2017-09-30...
+[2025-04-10 10:43:12] Error 429 on 2017-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:12] Retrieved 0 articles.
+[2025-04-10 10:43:12] Fetching 2017-10-01 to 2017-10-31...
+[2025-04-10 10:43:12] Error 429 on 2017-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:12] Retrieved 0 articles.
+[2025-04-10 10:43:12] Fetching 2017-11-01 to 2017-11-30...
+[2025-04-10 10:43:13] Error 429 on 2017-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:13] Retrieved 0 articles.
+[2025-04-10 10:43:13] Fetching 2017-12-01 to 2017-12-31...
+[2025-04-10 10:43:13] Error 429 on 2017-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:13] Retrieved 0 articles.
+[2025-04-10 10:43:13] Fetching 2018-01-01 to 2018-01-31...
+[2025-04-10 10:43:13] Error 429 on 2018-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:13] Retrieved 0 articles.
+[2025-04-10 10:43:13] Fetching 2018-02-01 to 2018-02-28...
+[2025-04-10 10:43:13] Error 429 on 2018-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:13] Retrieved 0 articles.
+[2025-04-10 10:43:13] Fetching 2018-03-01 to 2018-03-31...
+[2025-04-10 10:43:14] Error 429 on 2018-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:14] Retrieved 0 articles.
+[2025-04-10 10:43:14] Fetching 2018-04-01 to 2018-04-30...
+[2025-04-10 10:43:14] Error 429 on 2018-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:14] Retrieved 0 articles.
+[2025-04-10 10:43:14] Fetching 2018-05-01 to 2018-05-31...
+[2025-04-10 10:43:14] Error 429 on 2018-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:14] Retrieved 0 articles.
+[2025-04-10 10:43:14] Fetching 2018-06-01 to 2018-06-30...
+[2025-04-10 10:43:14] Error 429 on 2018-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:14] Retrieved 0 articles.
+[2025-04-10 10:43:14] Fetching 2018-07-01 to 2018-07-31...
+[2025-04-10 10:43:15] Error 429 on 2018-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:15] Retrieved 0 articles.
+[2025-04-10 10:43:15] Fetching 2018-08-01 to 2018-08-31...
+[2025-04-10 10:43:15] Error 429 on 2018-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:15] Retrieved 0 articles.
+[2025-04-10 10:43:15] Fetching 2018-09-01 to 2018-09-30...
+[2025-04-10 10:43:15] Error 429 on 2018-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:15] Retrieved 0 articles.
+[2025-04-10 10:43:15] Fetching 2018-10-01 to 2018-10-31...
+[2025-04-10 10:43:15] Error 429 on 2018-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:15] Retrieved 0 articles.
+[2025-04-10 10:43:15] Fetching 2018-11-01 to 2018-11-30...
+[2025-04-10 10:43:16] Error 429 on 2018-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:16] Retrieved 0 articles.
+[2025-04-10 10:43:16] Fetching 2018-12-01 to 2018-12-31...
+[2025-04-10 10:43:16] Error 429 on 2018-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:16] Retrieved 0 articles.
+[2025-04-10 10:43:16] Fetching 2019-01-01 to 2019-01-31...
+[2025-04-10 10:43:16] Error 429 on 2019-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:16] Retrieved 0 articles.
+[2025-04-10 10:43:16] Fetching 2019-02-01 to 2019-02-28...
+[2025-04-10 10:43:16] Error 429 on 2019-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:16] Retrieved 0 articles.
+[2025-04-10 10:43:16] Fetching 2019-03-01 to 2019-03-31...
+[2025-04-10 10:43:17] Error 429 on 2019-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:17] Retrieved 0 articles.
+[2025-04-10 10:43:17] Fetching 2019-04-01 to 2019-04-30...
+[2025-04-10 10:43:17] Error 429 on 2019-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:17] Retrieved 0 articles.
+[2025-04-10 10:43:17] Fetching 2019-05-01 to 2019-05-31...
+[2025-04-10 10:43:17] Error 429 on 2019-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:17] Retrieved 0 articles.
+[2025-04-10 10:43:17] Fetching 2019-06-01 to 2019-06-30...
+[2025-04-10 10:43:17] Error 429 on 2019-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:17] Retrieved 0 articles.
+[2025-04-10 10:43:17] Fetching 2019-07-01 to 2019-07-31...
+[2025-04-10 10:43:17] Error 429 on 2019-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:17] Retrieved 0 articles.
+[2025-04-10 10:43:17] Fetching 2019-08-01 to 2019-08-31...
+[2025-04-10 10:43:18] Error 429 on 2019-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:18] Retrieved 0 articles.
+[2025-04-10 10:43:18] Fetching 2019-09-01 to 2019-09-30...
+[2025-04-10 10:43:18] Error 429 on 2019-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:18] Retrieved 0 articles.
+[2025-04-10 10:43:18] Fetching 2019-10-01 to 2019-10-31...
+[2025-04-10 10:43:18] Error 429 on 2019-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:18] Retrieved 0 articles.
+[2025-04-10 10:43:18] Fetching 2019-11-01 to 2019-11-30...
+[2025-04-10 10:43:19] Error 429 on 2019-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:19] Retrieved 0 articles.
+[2025-04-10 10:43:19] Fetching 2019-12-01 to 2019-12-31...
+[2025-04-10 10:43:19] Error 429 on 2019-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:19] Retrieved 0 articles.
+[2025-04-10 10:43:19] Fetching 2020-01-01 to 2020-01-31...
+[2025-04-10 10:43:19] Error 429 on 2020-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:19] Retrieved 0 articles.
+[2025-04-10 10:43:19] Fetching 2020-02-01 to 2020-02-29...
+[2025-04-10 10:43:19] Error 429 on 2020-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:19] Retrieved 0 articles.
+[2025-04-10 10:43:19] Fetching 2020-03-01 to 2020-03-31...
+[2025-04-10 10:43:20] Error 429 on 2020-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:20] Retrieved 0 articles.
+[2025-04-10 10:43:20] Fetching 2020-04-01 to 2020-04-30...
+[2025-04-10 10:43:20] Error 429 on 2020-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:20] Retrieved 0 articles.
+[2025-04-10 10:43:20] Fetching 2020-05-01 to 2020-05-31...
+[2025-04-10 10:43:20] Error 429 on 2020-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:20] Retrieved 0 articles.
+[2025-04-10 10:43:20] Fetching 2020-06-01 to 2020-06-30...
+[2025-04-10 10:43:21] Error 429 on 2020-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:21] Retrieved 0 articles.
+[2025-04-10 10:43:21] Fetching 2020-07-01 to 2020-07-31...
+[2025-04-10 10:43:21] Error 429 on 2020-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:21] Retrieved 0 articles.
+[2025-04-10 10:43:21] Fetching 2020-08-01 to 2020-08-31...
+[2025-04-10 10:43:21] Error 429 on 2020-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:21] Retrieved 0 articles.
+[2025-04-10 10:43:21] Fetching 2020-09-01 to 2020-09-30...
+[2025-04-10 10:43:21] Error 429 on 2020-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:21] Retrieved 0 articles.
+[2025-04-10 10:43:21] Fetching 2020-10-01 to 2020-10-31...
+[2025-04-10 10:43:22] Error 429 on 2020-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:22] Retrieved 0 articles.
+[2025-04-10 10:43:22] Fetching 2020-11-01 to 2020-11-30...
+[2025-04-10 10:43:22] Error 429 on 2020-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:22] Retrieved 0 articles.
+[2025-04-10 10:43:22] Fetching 2020-12-01 to 2020-12-31...
+[2025-04-10 10:43:22] Error 429 on 2020-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:22] Retrieved 0 articles.
+[2025-04-10 10:43:22] Fetching 2021-01-01 to 2021-01-31...
+[2025-04-10 10:43:22] Error 429 on 2021-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:22] Retrieved 0 articles.
+[2025-04-10 10:43:22] Fetching 2021-02-01 to 2021-02-28...
+[2025-04-10 10:43:23] Error 429 on 2021-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:23] Retrieved 0 articles.
+[2025-04-10 10:43:23] Fetching 2021-03-01 to 2021-03-31...
+[2025-04-10 10:43:23] Error 429 on 2021-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:23] Retrieved 0 articles.
+[2025-04-10 10:43:23] Fetching 2021-04-01 to 2021-04-30...
+[2025-04-10 10:43:23] Error 429 on 2021-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:23] Retrieved 0 articles.
+[2025-04-10 10:43:23] Fetching 2021-05-01 to 2021-05-31...
+[2025-04-10 10:43:23] Error 429 on 2021-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:23] Retrieved 0 articles.
+[2025-04-10 10:43:23] Fetching 2021-06-01 to 2021-06-30...
+[2025-04-10 10:43:24] Error 429 on 2021-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:24] Retrieved 0 articles.
+[2025-04-10 10:43:24] Fetching 2021-07-01 to 2021-07-31...
+[2025-04-10 10:43:24] Error 429 on 2021-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:24] Retrieved 0 articles.
+[2025-04-10 10:43:24] Fetching 2021-08-01 to 2021-08-31...
+[2025-04-10 10:43:24] Error 429 on 2021-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:24] Retrieved 0 articles.
+[2025-04-10 10:43:24] Fetching 2021-09-01 to 2021-09-30...
+[2025-04-10 10:43:24] Error 429 on 2021-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:24] Retrieved 0 articles.
+[2025-04-10 10:43:24] Fetching 2021-10-01 to 2021-10-31...
+[2025-04-10 10:43:24] Error 429 on 2021-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:24] Retrieved 0 articles.
+[2025-04-10 10:43:25] Fetching 2021-11-01 to 2021-11-30...
+[2025-04-10 10:43:25] Error 429 on 2021-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:25] Retrieved 0 articles.
+[2025-04-10 10:43:25] Fetching 2021-12-01 to 2021-12-31...
+[2025-04-10 10:43:25] Error 429 on 2021-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:25] Retrieved 0 articles.
+[2025-04-10 10:43:25] Fetching 2022-01-01 to 2022-01-31...
+[2025-04-10 10:43:25] Error 429 on 2022-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:25] Retrieved 0 articles.
+[2025-04-10 10:43:25] Fetching 2022-02-01 to 2022-02-28...
+[2025-04-10 10:43:25] Error 429 on 2022-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:25] Retrieved 0 articles.
+[2025-04-10 10:43:25] Fetching 2022-03-01 to 2022-03-31...
+[2025-04-10 10:43:26] Error 429 on 2022-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:26] Retrieved 0 articles.
+[2025-04-10 10:43:26] Fetching 2022-04-01 to 2022-04-30...
+[2025-04-10 10:43:26] Error 429 on 2022-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:26] Retrieved 0 articles.
+[2025-04-10 10:43:26] Fetching 2022-05-01 to 2022-05-31...
+[2025-04-10 10:43:26] Error 429 on 2022-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:26] Retrieved 0 articles.
+[2025-04-10 10:43:26] Fetching 2022-06-01 to 2022-06-30...
+[2025-04-10 10:43:27] Error 429 on 2022-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:27] Retrieved 0 articles.
+[2025-04-10 10:43:27] Fetching 2022-07-01 to 2022-07-31...
+[2025-04-10 10:43:27] Error 429 on 2022-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:27] Retrieved 0 articles.
+[2025-04-10 10:43:27] Fetching 2022-08-01 to 2022-08-31...
+[2025-04-10 10:43:27] Error 429 on 2022-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:27] Retrieved 0 articles.
+[2025-04-10 10:43:27] Fetching 2022-09-01 to 2022-09-30...
+[2025-04-10 10:43:28] Error 429 on 2022-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:28] Retrieved 0 articles.
+[2025-04-10 10:43:28] Fetching 2022-10-01 to 2022-10-31...
+[2025-04-10 10:43:28] Error 429 on 2022-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:28] Retrieved 0 articles.
+[2025-04-10 10:43:28] Fetching 2022-11-01 to 2022-11-30...
+[2025-04-10 10:43:28] Error 429 on 2022-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:28] Retrieved 0 articles.
+[2025-04-10 10:43:28] Fetching 2022-12-01 to 2022-12-31...
+[2025-04-10 10:43:28] Error 429 on 2022-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:28] Retrieved 0 articles.
+[2025-04-10 10:43:28] Fetching 2023-01-01 to 2023-01-31...
+[2025-04-10 10:43:28] Error 429 on 2023-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:28] Retrieved 0 articles.
+[2025-04-10 10:43:28] Fetching 2023-02-01 to 2023-02-28...
+[2025-04-10 10:43:29] Error 429 on 2023-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:29] Retrieved 0 articles.
+[2025-04-10 10:43:29] Fetching 2023-03-01 to 2023-03-31...
+[2025-04-10 10:43:29] Error 429 on 2023-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:29] Retrieved 0 articles.
+[2025-04-10 10:43:29] Fetching 2023-04-01 to 2023-04-30...
+[2025-04-10 10:43:29] Error 429 on 2023-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:29] Retrieved 0 articles.
+[2025-04-10 10:43:29] Fetching 2023-05-01 to 2023-05-31...
+[2025-04-10 10:43:29] Error 429 on 2023-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:29] Retrieved 0 articles.
+[2025-04-10 10:43:29] Fetching 2023-06-01 to 2023-06-30...
+[2025-04-10 10:43:29] Error 429 on 2023-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:29] Retrieved 0 articles.
+[2025-04-10 10:43:29] Fetching 2023-07-01 to 2023-07-31...
+[2025-04-10 10:43:30] Error 429 on 2023-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:30] Retrieved 0 articles.
+[2025-04-10 10:43:30] Fetching 2023-08-01 to 2023-08-31...
+[2025-04-10 10:43:30] Error 429 on 2023-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:30] Retrieved 0 articles.
+[2025-04-10 10:43:30] Fetching 2023-09-01 to 2023-09-30...
+[2025-04-10 10:43:30] Error 429 on 2023-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:30] Retrieved 0 articles.
+[2025-04-10 10:43:30] Fetching 2023-10-01 to 2023-10-31...
+[2025-04-10 10:43:30] Error 429 on 2023-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:30] Retrieved 0 articles.
+[2025-04-10 10:43:30] Fetching 2023-11-01 to 2023-11-30...
+[2025-04-10 10:43:31] Error 429 on 2023-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:31] Retrieved 0 articles.
+[2025-04-10 10:43:31] Fetching 2023-12-01 to 2023-12-31...
+[2025-04-10 10:43:31] Error 429 on 2023-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:31] Retrieved 0 articles.
+[2025-04-10 10:43:31] Fetching 2024-01-01 to 2024-01-31...
+[2025-04-10 10:43:31] Error 429 on 2024-01-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:31] Retrieved 0 articles.
+[2025-04-10 10:43:31] Fetching 2024-02-01 to 2024-02-29...
+[2025-04-10 10:43:31] Error 429 on 2024-02-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:31] Retrieved 0 articles.
+[2025-04-10 10:43:31] Fetching 2024-03-01 to 2024-03-31...
+[2025-04-10 10:43:31] Error 429 on 2024-03-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:31] Retrieved 0 articles.
+[2025-04-10 10:43:31] Fetching 2024-04-01 to 2024-04-30...
+[2025-04-10 10:43:32] Error 429 on 2024-04-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:32] Retrieved 0 articles.
+[2025-04-10 10:43:32] Fetching 2024-05-01 to 2024-05-31...
+[2025-04-10 10:43:32] Error 429 on 2024-05-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:32] Retrieved 0 articles.
+[2025-04-10 10:43:32] Fetching 2024-06-01 to 2024-06-30...
+[2025-04-10 10:43:32] Error 429 on 2024-06-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:32] Retrieved 0 articles.
+[2025-04-10 10:43:32] Fetching 2024-07-01 to 2024-07-31...
+[2025-04-10 10:43:32] Error 429 on 2024-07-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:32] Retrieved 0 articles.
+[2025-04-10 10:43:32] Fetching 2024-08-01 to 2024-08-31...
+[2025-04-10 10:43:32] Error 429 on 2024-08-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:32] Retrieved 0 articles.
+[2025-04-10 10:43:32] Fetching 2024-09-01 to 2024-09-30...
+[2025-04-10 10:43:33] Error 429 on 2024-09-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:33] Retrieved 0 articles.
+[2025-04-10 10:43:33] Fetching 2024-10-01 to 2024-10-31...
+[2025-04-10 10:43:33] Error 429 on 2024-10-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:33] Retrieved 0 articles.
+[2025-04-10 10:43:33] Fetching 2024-11-01 to 2024-11-30...
+[2025-04-10 10:43:33] Error 429 on 2024-11-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:33] Retrieved 0 articles.
+[2025-04-10 10:43:33] Fetching 2024-12-01 to 2024-12-31...
+[2025-04-10 10:43:33] Error 429 on 2024-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:43:33] Retrieved 0 articles.
+[2025-04-10 10:46:04] Fetching 2024-12-01 to 2024-12-31...
+[2025-04-10 10:46:04] Error 429 on 2024-12-01: {"error":"Too many requests"}
+
+[2025-04-10 10:46:04] Retrieved 0 articles.
+[2025-04-14 18:00:39] Fetching data for 2024-12...
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] SQLite error: table articles has no column named article_uuid
+[2025-04-14 18:00:41] Inserted 0 articles.
+[2025-04-14 18:00:42] Backfill run complete. API calls used: 1
+[2025-04-14 18:01:55] Fetching data for 2024-12...
+[2025-04-14 18:01:55] Inserted 25 articles.
+[2025-04-14 18:01:56] Backfill run complete. API calls used: 1
+[2025-04-14 22:22:07] Fetching month: 2024-12
+[2025-04-14 22:22:11] Inserted 25 articles in this batch.
+[2025-04-14 22:22:11] Inserted 25 articles in this batch.
+[2025-04-14 22:22:11] Inserted 25 articles in this batch.
+[2025-04-14 22:22:11] Inserted 25 articles in this batch.
+[2025-04-14 22:22:11] Inserted 100 total articles this month.
+[2025-04-14 22:22:11] Fetching month: 2024-11
+[2025-04-14 22:22:15] Inserted 25 articles in this batch.
+[2025-04-14 22:22:15] Inserted 25 articles in this batch.
+[2025-04-14 22:22:15] Inserted 25 articles in this batch.
+[2025-04-14 22:22:15] Inserted 25 articles in this batch.
+[2025-04-14 22:22:15] Inserted 100 total articles this month.
+[2025-04-14 22:22:15] Fetching month: 2024-10
+[2025-04-14 22:22:19] Inserted 25 articles in this batch.
+[2025-04-14 22:22:19] Inserted 25 articles in this batch.
+[2025-04-14 22:22:19] Inserted 25 articles in this batch.
+[2025-04-14 22:22:19] Inserted 25 articles in this batch.
+[2025-04-14 22:22:19] Inserted 100 total articles this month.
+[2025-04-14 22:22:19] Fetching month: 2024-09
+[2025-04-14 22:22:22] Inserted 25 articles in this batch.
+[2025-04-14 22:22:22] Inserted 25 articles in this batch.
+[2025-04-14 22:22:22] Inserted 25 articles in this batch.
+[2025-04-14 22:22:22] Inserted 25 articles in this batch.
+[2025-04-14 22:22:22] Inserted 100 total articles this month.
+[2025-04-14 22:22:22] Fetching month: 2024-08
+[2025-04-14 22:22:25] Inserted 25 articles in this batch.
+[2025-04-14 22:22:25] Inserted 25 articles in this batch.
+[2025-04-14 22:22:25] Inserted 25 articles in this batch.
+[2025-04-14 22:22:25] Inserted 25 articles in this batch.
+[2025-04-14 22:22:25] Inserted 100 total articles this month.
+[2025-04-14 22:22:25] Fetching month: 2024-07
+[2025-04-14 22:22:28] Inserted 25 articles in this batch.
+[2025-04-14 22:22:28] Inserted 25 articles in this batch.
+[2025-04-14 22:22:28] Inserted 25 articles in this batch.
+[2025-04-14 22:22:28] Inserted 25 articles in this batch.
+[2025-04-14 22:22:28] Inserted 100 total articles this month.
+[2025-04-14 22:22:28] Fetching month: 2024-06
+[2025-04-14 22:22:32] Inserted 25 articles in this batch.
+[2025-04-14 22:22:32] Inserted 25 articles in this batch.
+[2025-04-14 22:22:32] Inserted 25 articles in this batch.
+[2025-04-14 22:22:32] Inserted 25 articles in this batch.
+[2025-04-14 22:22:32] Inserted 100 total articles this month.
+[2025-04-14 22:22:32] Fetching month: 2024-05
+[2025-04-14 22:22:35] Inserted 25 articles in this batch.
+[2025-04-14 22:22:35] Inserted 25 articles in this batch.
+[2025-04-14 22:22:35] Inserted 25 articles in this batch.
+[2025-04-14 22:22:35] Inserted 25 articles in this batch.
+[2025-04-14 22:22:35] Inserted 100 total articles this month.
+[2025-04-14 22:22:35] Fetching month: 2024-04
+[2025-04-14 22:22:38] Inserted 25 articles in this batch.
+[2025-04-14 22:22:38] Inserted 25 articles in this batch.
+[2025-04-14 22:22:38] Inserted 25 articles in this batch.
+[2025-04-14 22:22:38] Inserted 25 articles in this batch.
+[2025-04-14 22:22:38] Inserted 100 total articles this month.
+[2025-04-14 22:22:38] Fetching month: 2024-03
+[2025-04-14 22:22:41] Inserted 25 articles in this batch.
+[2025-04-14 22:22:41] Inserted 25 articles in this batch.
+[2025-04-14 22:22:41] Inserted 25 articles in this batch.
+[2025-04-14 22:22:41] Inserted 25 articles in this batch.
+[2025-04-14 22:22:41] Inserted 100 total articles this month.
+[2025-04-14 22:22:41] Fetching month: 2024-02
+[2025-04-14 22:22:44] Inserted 25 articles in this batch.
+[2025-04-14 22:22:44] Inserted 25 articles in this batch.
+[2025-04-14 22:22:44] Inserted 25 articles in this batch.
+[2025-04-14 22:22:44] Inserted 25 articles in this batch.
+[2025-04-14 22:22:44] Inserted 100 total articles this month.
+[2025-04-14 22:22:44] Fetching month: 2024-01
+[2025-04-14 22:22:47] Inserted 25 articles in this batch.
+[2025-04-14 22:22:47] Inserted 25 articles in this batch.
+[2025-04-14 22:22:47] Inserted 25 articles in this batch.
+[2025-04-14 22:22:47] Inserted 25 articles in this batch.
+[2025-04-14 22:22:47] Inserted 100 total articles this month.
+[2025-04-14 22:22:47] Fetching month: 2023-12
+[2025-04-14 22:22:50] Inserted 25 articles in this batch.
+[2025-04-14 22:22:50] Inserted 25 articles in this batch.
+[2025-04-14 22:22:50] Inserted 25 articles in this batch.
+[2025-04-14 22:22:50] Inserted 25 articles in this batch.
+[2025-04-14 22:22:50] Inserted 100 total articles this month.
+[2025-04-14 22:22:50] Fetching month: 2023-11
+[2025-04-14 22:22:53] Inserted 25 articles in this batch.
+[2025-04-14 22:22:53] Inserted 25 articles in this batch.
+[2025-04-14 22:22:53] Inserted 25 articles in this batch.
+[2025-04-14 22:22:53] Inserted 25 articles in this batch.
+[2025-04-14 22:22:53] Inserted 100 total articles this month.
+[2025-04-14 22:22:53] Fetching month: 2023-10
+[2025-04-14 22:22:56] Inserted 25 articles in this batch.
+[2025-04-14 22:22:56] Inserted 25 articles in this batch.
+[2025-04-14 22:22:56] Inserted 25 articles in this batch.
+[2025-04-14 22:22:56] Inserted 25 articles in this batch.
+[2025-04-14 22:22:56] Inserted 100 total articles this month.
+[2025-04-14 22:22:56] Fetching month: 2023-09
+[2025-04-14 22:22:59] Inserted 25 articles in this batch.
+[2025-04-14 22:22:59] Inserted 25 articles in this batch.
+[2025-04-14 22:22:59] Inserted 25 articles in this batch.
+[2025-04-14 22:22:59] Inserted 25 articles in this batch.
+[2025-04-14 22:22:59] Inserted 100 total articles this month.
+[2025-04-14 22:22:59] Fetching month: 2023-08
+[2025-04-14 22:23:03] Inserted 25 articles in this batch.
+[2025-04-14 22:23:03] Inserted 25 articles in this batch.
+[2025-04-14 22:23:03] Inserted 25 articles in this batch.
+[2025-04-14 22:23:03] Inserted 25 articles in this batch.
+[2025-04-14 22:23:03] Inserted 100 total articles this month.
+[2025-04-14 22:23:03] Fetching month: 2023-07
+[2025-04-14 22:23:06] Inserted 25 articles in this batch.
+[2025-04-14 22:23:06] Inserted 25 articles in this batch.
+[2025-04-14 22:23:06] Inserted 25 articles in this batch.
+[2025-04-14 22:23:06] Inserted 25 articles in this batch.
+[2025-04-14 22:23:06] Inserted 100 total articles this month.
+[2025-04-14 22:23:06] Fetching month: 2023-06
+[2025-04-14 22:23:09] Inserted 25 articles in this batch.
+[2025-04-14 22:23:09] Inserted 25 articles in this batch.
+[2025-04-14 22:23:09] Inserted 25 articles in this batch.
+[2025-04-14 22:23:09] Inserted 25 articles in this batch.
+[2025-04-14 22:23:09] Inserted 100 total articles this month.
+[2025-04-14 22:23:09] Fetching month: 2023-05
+[2025-04-14 22:23:12] Inserted 25 articles in this batch.
+[2025-04-14 22:23:12] Inserted 25 articles in this batch.
+[2025-04-14 22:23:12] Inserted 25 articles in this batch.
+[2025-04-14 22:23:12] Inserted 25 articles in this batch.
+[2025-04-14 22:23:12] Inserted 100 total articles this month.
+[2025-04-14 22:23:12] Fetching month: 2023-04
+[2025-04-14 22:23:15] Inserted 25 articles in this batch.
+[2025-04-14 22:23:15] Inserted 25 articles in this batch.
+[2025-04-14 22:23:15] Inserted 25 articles in this batch.
+[2025-04-14 22:23:15] Inserted 25 articles in this batch.
+[2025-04-14 22:23:15] Inserted 100 total articles this month.
+[2025-04-14 22:23:15] Fetching month: 2023-03
+[2025-04-14 22:23:18] Inserted 25 articles in this batch.
+[2025-04-14 22:23:18] Inserted 25 articles in this batch.
+[2025-04-14 22:23:18] Inserted 25 articles in this batch.
+[2025-04-14 22:23:18] Inserted 25 articles in this batch.
+[2025-04-14 22:23:18] Inserted 100 total articles this month.
+[2025-04-14 22:23:18] Fetching month: 2023-02
+[2025-04-14 22:23:21] Inserted 25 articles in this batch.
+[2025-04-14 22:23:21] Inserted 25 articles in this batch.
+[2025-04-14 22:23:21] Inserted 25 articles in this batch.
+[2025-04-14 22:23:21] Inserted 25 articles in this batch.
+[2025-04-14 22:23:21] Inserted 100 total articles this month.
+[2025-04-14 22:23:21] Fetching month: 2023-01
+[2025-04-14 22:23:25] Inserted 25 articles in this batch.
+[2025-04-14 22:23:25] Inserted 25 articles in this batch.
+[2025-04-14 22:23:25] Inserted 25 articles in this batch.
+[2025-04-14 22:23:25] Inserted 25 articles in this batch.
+[2025-04-14 22:23:25] Inserted 100 total articles this month.
+[2025-04-14 22:23:25] Fetching month: 2022-12
+[2025-04-14 22:23:25] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:26] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:27] No articles retrieved for this month.
+[2025-04-14 22:23:27] Fetching month: 2022-11
+[2025-04-14 22:23:27] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:29] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:30] No articles retrieved for this month.
+[2025-04-14 22:23:30] Fetching month: 2022-10
+[2025-04-14 22:23:30] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:31] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:32] No articles retrieved for this month.
+[2025-04-14 22:23:32] Fetching month: 2022-09
+[2025-04-14 22:23:32] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:34] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:35] No articles retrieved for this month.
+[2025-04-14 22:23:35] Fetching month: 2022-08
+[2025-04-14 22:23:35] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:36] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:37] No articles retrieved for this month.
+[2025-04-14 22:23:37] Fetching month: 2022-07
+[2025-04-14 22:23:37] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:39] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:40] No articles retrieved for this month.
+[2025-04-14 22:23:40] Fetching month: 2022-06
+[2025-04-14 22:23:40] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:41] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:42] No articles retrieved for this month.
+[2025-04-14 22:23:42] Fetching month: 2022-05
+[2025-04-14 22:23:42] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:44] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:45] No articles retrieved for this month.
+[2025-04-14 22:23:45] Fetching month: 2022-04
+[2025-04-14 22:23:45] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:46] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:47] No articles retrieved for this month.
+[2025-04-14 22:23:47] Fetching month: 2022-03
+[2025-04-14 22:23:48] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:49] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:50] No articles retrieved for this month.
+[2025-04-14 22:23:50] Fetching month: 2022-02
+[2025-04-14 22:23:50] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:51] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:52] No articles retrieved for this month.
+[2025-04-14 22:23:52] Fetching month: 2022-01
+[2025-04-14 22:23:53] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:54] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:55] No articles retrieved for this month.
+[2025-04-14 22:23:55] Fetching month: 2021-12
+[2025-04-14 22:23:55] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:56] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:57] No articles retrieved for this month.
+[2025-04-14 22:23:57] Fetching month: 2021-11
+[2025-04-14 22:23:58] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:23:59] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:00] No articles retrieved for this month.
+[2025-04-14 22:24:00] Fetching month: 2021-10
+[2025-04-14 22:24:00] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:01] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:02] No articles retrieved for this month.
+[2025-04-14 22:24:02] Fetching month: 2021-09
+[2025-04-14 22:24:02] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:04] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:05] No articles retrieved for this month.
+[2025-04-14 22:24:05] Fetching month: 2021-08
+[2025-04-14 22:24:05] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:06] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:07] No articles retrieved for this month.
+[2025-04-14 22:24:07] Fetching month: 2021-07
+[2025-04-14 22:24:07] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:09] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:10] No articles retrieved for this month.
+[2025-04-14 22:24:10] Fetching month: 2021-06
+[2025-04-14 22:24:10] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:11] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:12] No articles retrieved for this month.
+[2025-04-14 22:24:12] Fetching month: 2021-05
+[2025-04-14 22:24:12] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:14] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:15] No articles retrieved for this month.
+[2025-04-14 22:24:15] Fetching month: 2021-04
+[2025-04-14 22:24:15] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:16] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:17] No articles retrieved for this month.
+[2025-04-14 22:24:17] Fetching month: 2021-03
+[2025-04-14 22:24:17] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:19] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:20] No articles retrieved for this month.
+[2025-04-14 22:24:20] Fetching month: 2021-02
+[2025-04-14 22:24:20] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:21] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:22] No articles retrieved for this month.
+[2025-04-14 22:24:22] Fetching month: 2021-01
+[2025-04-14 22:24:22] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:24] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:25] No articles retrieved for this month.
+[2025-04-14 22:24:25] Fetching month: 2020-12
+[2025-04-14 22:24:25] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:26] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:27] No articles retrieved for this month.
+[2025-04-14 22:24:27] Fetching month: 2020-11
+[2025-04-14 22:24:27] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:29] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:30] No articles retrieved for this month.
+[2025-04-14 22:24:30] Fetching month: 2020-10
+[2025-04-14 22:24:30] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:31] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:32] No articles retrieved for this month.
+[2025-04-14 22:24:32] Fetching month: 2020-09
+[2025-04-14 22:24:33] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:34] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:35] No articles retrieved for this month.
+[2025-04-14 22:24:35] Fetching month: 2020-08
+[2025-04-14 22:24:35] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:36] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:37] No articles retrieved for this month.
+[2025-04-14 22:24:37] Fetching month: 2020-07
+[2025-04-14 22:24:38] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:39] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:40] No articles retrieved for this month.
+[2025-04-14 22:24:40] Fetching month: 2020-06
+[2025-04-14 22:24:40] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:41] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:42] No articles retrieved for this month.
+[2025-04-14 22:24:42] Fetching month: 2020-05
+[2025-04-14 22:24:43] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:44] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:45] No articles retrieved for this month.
+[2025-04-14 22:24:45] Fetching month: 2020-04
+[2025-04-14 22:24:45] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:47] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:48] No articles retrieved for this month.
+[2025-04-14 22:24:48] Fetching month: 2020-03
+[2025-04-14 22:24:48] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:49] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:50] No articles retrieved for this month.
+[2025-04-14 22:24:50] Fetching month: 2020-02
+[2025-04-14 22:24:50] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:52] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:53] No articles retrieved for this month.
+[2025-04-14 22:24:53] Fetching month: 2020-01
+[2025-04-14 22:24:53] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:54] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:55] No articles retrieved for this month.
+[2025-04-14 22:24:55] Fetching month: 2019-12
+[2025-04-14 22:24:55] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:57] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:58] No articles retrieved for this month.
+[2025-04-14 22:24:58] Fetching month: 2019-11
+[2025-04-14 22:24:58] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:24:59] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:00] No articles retrieved for this month.
+[2025-04-14 22:25:00] Fetching month: 2019-10
+[2025-04-14 22:25:00] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:02] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:03] No articles retrieved for this month.
+[2025-04-14 22:25:03] Fetching month: 2019-09
+[2025-04-14 22:25:03] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:04] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:05] No articles retrieved for this month.
+[2025-04-14 22:25:05] Fetching month: 2019-08
+[2025-04-14 22:25:06] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:07] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:08] No articles retrieved for this month.
+[2025-04-14 22:25:08] Fetching month: 2019-07
+[2025-04-14 22:25:08] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:09] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:10] No articles retrieved for this month.
+[2025-04-14 22:25:10] Fetching month: 2019-06
+[2025-04-14 22:25:11] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:12] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:13] No articles retrieved for this month.
+[2025-04-14 22:25:13] Fetching month: 2019-05
+[2025-04-14 22:25:13] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:14] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:15] No articles retrieved for this month.
+[2025-04-14 22:25:15] Fetching month: 2019-04
+[2025-04-14 22:25:16] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:17] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:18] No articles retrieved for this month.
+[2025-04-14 22:25:18] Fetching month: 2019-03
+[2025-04-14 22:25:18] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:20] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:21] No articles retrieved for this month.
+[2025-04-14 22:25:21] Fetching month: 2019-02
+[2025-04-14 22:25:21] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:22] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:23] No articles retrieved for this month.
+[2025-04-14 22:25:23] Fetching month: 2019-01
+[2025-04-14 22:25:23] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:25] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:26] No articles retrieved for this month.
+[2025-04-14 22:25:26] Fetching month: 2018-12
+[2025-04-14 22:25:26] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:27] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:28] No articles retrieved for this month.
+[2025-04-14 22:25:28] Fetching month: 2018-11
+[2025-04-14 22:25:28] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:30] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:31] No articles retrieved for this month.
+[2025-04-14 22:25:31] Fetching month: 2018-10
+[2025-04-14 22:25:31] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:32] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:33] No articles retrieved for this month.
+[2025-04-14 22:25:33] Fetching month: 2018-09
+[2025-04-14 22:25:33] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:35] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:36] No articles retrieved for this month.
+[2025-04-14 22:25:36] Fetching month: 2018-08
+[2025-04-14 22:25:36] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:37] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:38] No articles retrieved for this month.
+[2025-04-14 22:25:38] Fetching month: 2018-07
+[2025-04-14 22:25:39] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:40] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:41] No articles retrieved for this month.
+[2025-04-14 22:25:41] Fetching month: 2018-06
+[2025-04-14 22:25:41] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:43] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:44] No articles retrieved for this month.
+[2025-04-14 22:25:44] Fetching month: 2018-05
+[2025-04-14 22:25:44] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:45] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:46] No articles retrieved for this month.
+[2025-04-14 22:25:46] Fetching month: 2018-04
+[2025-04-14 22:25:46] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:48] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:49] No articles retrieved for this month.
+[2025-04-14 22:25:49] Fetching month: 2018-03
+[2025-04-14 22:25:49] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:50] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:51] No articles retrieved for this month.
+[2025-04-14 22:25:51] Fetching month: 2018-02
+[2025-04-14 22:25:51] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:53] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:54] No articles retrieved for this month.
+[2025-04-14 22:25:54] Fetching month: 2018-01
+[2025-04-14 22:25:54] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:55] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:56] No articles retrieved for this month.
+[2025-04-14 22:25:56] Fetching month: 2017-12
+[2025-04-14 22:25:56] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:58] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:25:59] No articles retrieved for this month.
+[2025-04-14 22:25:59] Fetching month: 2017-11
+[2025-04-14 22:25:59] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:00] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:01] No articles retrieved for this month.
+[2025-04-14 22:26:01] Fetching month: 2017-10
+[2025-04-14 22:26:01] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:03] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:04] No articles retrieved for this month.
+[2025-04-14 22:26:04] Fetching month: 2017-09
+[2025-04-14 22:26:04] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:05] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:06] No articles retrieved for this month.
+[2025-04-14 22:26:06] Fetching month: 2017-08
+[2025-04-14 22:26:06] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:08] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:09] No articles retrieved for this month.
+[2025-04-14 22:26:09] Fetching month: 2017-07
+[2025-04-14 22:26:09] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:10] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:11] No articles retrieved for this month.
+[2025-04-14 22:26:11] Fetching month: 2017-06
+[2025-04-14 22:26:12] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:13] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:14] No articles retrieved for this month.
+[2025-04-14 22:26:14] Fetching month: 2017-05
+[2025-04-14 22:26:14] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:15] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:16] No articles retrieved for this month.
+[2025-04-14 22:26:16] Fetching month: 2017-04
+[2025-04-14 22:26:17] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:18] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:19] No articles retrieved for this month.
+[2025-04-14 22:26:19] Fetching month: 2017-03
+[2025-04-14 22:26:19] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:21] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:22] No articles retrieved for this month.
+[2025-04-14 22:26:22] Fetching month: 2017-02
+[2025-04-14 22:26:22] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:23] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:24] No articles retrieved for this month.
+[2025-04-14 22:26:24] Fetching month: 2017-01
+[2025-04-14 22:26:24] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:26] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:27] No articles retrieved for this month.
+[2025-04-14 22:26:27] Fetching month: 2016-12
+[2025-04-14 22:26:27] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:28] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:29] No articles retrieved for this month.
+[2025-04-14 22:26:29] Fetching month: 2016-11
+[2025-04-14 22:26:29] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:31] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:32] No articles retrieved for this month.
+[2025-04-14 22:26:32] Fetching month: 2016-10
+[2025-04-14 22:26:32] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:33] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:34] No articles retrieved for this month.
+[2025-04-14 22:26:34] Fetching month: 2016-09
+[2025-04-14 22:26:34] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:36] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:37] No articles retrieved for this month.
+[2025-04-14 22:26:37] Fetching month: 2016-08
+[2025-04-14 22:26:37] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:38] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:39] No articles retrieved for this month.
+[2025-04-14 22:26:39] Fetching month: 2016-07
+[2025-04-14 22:26:40] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:41] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:42] No articles retrieved for this month.
+[2025-04-14 22:26:42] Fetching month: 2016-06
+[2025-04-14 22:26:42] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:44] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:45] No articles retrieved for this month.
+[2025-04-14 22:26:45] Fetching month: 2016-05
+[2025-04-14 22:26:45] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:46] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:47] No articles retrieved for this month.
+[2025-04-14 22:26:47] Fetching month: 2016-04
+[2025-04-14 22:26:47] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:49] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:50] No articles retrieved for this month.
+[2025-04-14 22:26:50] Fetching month: 2016-03
+[2025-04-14 22:26:50] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:51] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:52] No articles retrieved for this month.
+[2025-04-14 22:26:52] Fetching month: 2016-02
+[2025-04-14 22:26:52] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:54] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:55] No articles retrieved for this month.
+[2025-04-14 22:26:55] Fetching month: 2016-01
+[2025-04-14 22:26:55] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:56] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:57] No articles retrieved for this month.
+[2025-04-14 22:26:57] Fetching month: 2015-12
+[2025-04-14 22:26:57] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:26:59] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:00] No articles retrieved for this month.
+[2025-04-14 22:27:00] Fetching month: 2015-11
+[2025-04-14 22:27:00] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:01] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:02] No articles retrieved for this month.
+[2025-04-14 22:27:02] Fetching month: 2015-10
+[2025-04-14 22:27:03] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:04] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:05] No articles retrieved for this month.
+[2025-04-14 22:27:05] Fetching month: 2015-09
+[2025-04-14 22:27:05] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:06] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:07] No articles retrieved for this month.
+[2025-04-14 22:27:07] Fetching month: 2015-08
+[2025-04-14 22:27:08] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:09] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:10] No articles retrieved for this month.
+[2025-04-14 22:27:10] Fetching month: 2015-07
+[2025-04-14 22:27:10] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:11] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:12] No articles retrieved for this month.
+[2025-04-14 22:27:12] Fetching month: 2015-06
+[2025-04-14 22:27:13] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:14] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:15] No articles retrieved for this month.
+[2025-04-14 22:27:15] Fetching month: 2015-05
+[2025-04-14 22:27:15] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:16] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:17] No articles retrieved for this month.
+[2025-04-14 22:27:17] Fetching month: 2015-04
+[2025-04-14 22:27:18] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:19] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:20] No articles retrieved for this month.
+[2025-04-14 22:27:20] Fetching month: 2015-03
+[2025-04-14 22:27:20] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:21] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:22] No articles retrieved for this month.
+[2025-04-14 22:27:22] Fetching month: 2015-02
+[2025-04-14 22:27:23] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:24] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:25] No articles retrieved for this month.
+[2025-04-14 22:27:25] Fetching month: 2015-01
+[2025-04-14 22:27:25] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:26] Error 429: {"error":"Too many requests"}
+
+[2025-04-14 22:27:27] No articles retrieved for this month.
+[2025-04-14 22:27:27] Backfill finished. Total API calls: 240
