@@ -30,15 +30,15 @@ def create_db_and_table(db_name, table_name):
     conn.commit()
     conn.close()
 
-def pull_monthly_data_from_api(api_key, symbol, data_type):
-    import requests
-    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol={symbol}&apikey={api_key}&datatype={data_type}'
-    response = requests.get(url)
-    if response.status_code != 200:
-        raise Exception(f"API request failed with status code {response.status_code}")
-    return response.json()
+# def pull_monthly_data_from_api(api_key, symbol, data_type='json'):
+#     import requests
+#     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol={symbol}&apikey={api_key}&datatype={data_type}'
+#     response = requests.get(url)
+#     if response.status_code != 200:
+#         raise Exception(f"API request failed with status code {response.status_code}")
+#     return response.json()
 
-def pull_weekly_data_from_api(api_key, symbol, data_type):
+def pull_weekly_data_from_api(api_key, symbol, data_type='json'):
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol={symbol}&apikey={api_key}&datatype={data_type}'
     response = requests.get(url)
     if response.status_code != 200:
@@ -68,30 +68,30 @@ def insert_monthly_data_into_db(db_name, table_name, data):
     conn.commit()
     conn.close()
 
-def insert_weekly_data_into_db(db_name, table_name, data):
-    conn = sqlite3.connect(db_name)
-    cur = conn.cursor()
-    for date in data['Weekly Adjusted Time Series']:
-        day = date
-        day_data = data['Weekly Adjusted Time Series'][date]
-        open_price = day_data['1. open']
-        high_price = day_data['2. high']
-        low_price = day_data['3. low']
-        close_price = day_data['4. close']
-        adjusted_close_price = day_data['5. adjusted close']
-        volume = day_data['6. volume']
-        dividend_amount = day_data['7. dividend amount']
+# def insert_weekly_data_into_db(db_name, table_name, data):
+#     conn = sqlite3.connect(db_name)
+#     cur = conn.cursor()
+#     for date in data['Weekly Adjusted Time Series']:
+#         day = date
+#         day_data = data['Weekly Adjusted Time Series'][date]
+#         open_price = day_data['1. open']
+#         high_price = day_data['2. high']
+#         low_price = day_data['3. low']
+#         close_price = day_data['4. close']
+#         adjusted_close_price = day_data['5. adjusted close']
+#         volume = day_data['6. volume']
+#         dividend_amount = day_data['7. dividend amount']
         
-        cur.execute(f"""
-                    INSERT OR IGNORE INTO {table_name} 
-                    (date, open, high, low, close, adjusted_close, volume, dividend_amount)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                    """, 
-                    (day, open_price, high_price, low_price, close_price, adjusted_close_price, volume, dividend_amount))
-    conn.commit()
-    conn.close()
+#         cur.execute(f"""
+#                     INSERT OR IGNORE INTO {table_name} 
+#                     (date, open, high, low, close, adjusted_close, volume, dividend_amount)
+#                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+#                     """, 
+#                     (day, open_price, high_price, low_price, close_price, adjusted_close_price, volume, dividend_amount))
+#     conn.commit()
+#     conn.close()
 
-def insert_weekly_data_test(db_name, table_name, data, n):
+def insert_weekly_data(db_name, table_name, data, n):
     # Process the data in chunks of n
     dates = list(data['Weekly Adjusted Time Series']) 
     total_dates = len(dates) 
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     create_db_and_table(db_name, table_name)
     print(f"Successfully created {table_name} table")
 
-    insert_weekly_data_test(db_name, table_name, pull_weekly_data_from_api(api_key, ticker, data_type), 25)
+    insert_weekly_data(db_name, table_name, pull_weekly_data_from_api(api_key, ticker, data_type), 25)
     print(f"Weekly data for {ticker} inserted into {table_name}, successfully.")
 
     visualize_data(db_name, table_name)
