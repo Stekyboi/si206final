@@ -156,10 +156,10 @@ if __name__ == "__main__":
     api_key = get_api_key('api_key.txt')
     print("API key retrieved successfully.")
 
-    ticker = 'SPY'
+    ticker = 'NDAQ'
     data_type = 'json'
     db_name = 'stock_data.db'
-    table_name = 'SPY_data'
+    table_name = 'NASDAQ_weekly'
 
     # create_db_and_table(db_name, table_name)
     # print(f"Database '{db_name}' and table '{table_name}' created successfully.")
@@ -170,11 +170,11 @@ if __name__ == "__main__":
     # visualize_data(db_name, table_name)
     # print(f"Data visualization for '{table_name}' completed successfully.")
 
-    create_db_and_table(db_name, 'SPY_weekly')
-    print("Successfully created 'SPY_weekly' table")
+    create_db_and_table(db_name, table_name)
+    print(f"Successfully created {table_name} table")
 
-    insert_weekly_data_test(db_name, 'SPY_weekly', pull_weekly_data_from_api(api_key, ticker, data_type), 25)
-    print(f"Weekly data for {ticker} inserted into 'SPY_weekly', successfully.")
+    insert_weekly_data_test(db_name, table_name, pull_weekly_data_from_api(api_key, ticker, data_type), 25)
+    print(f"Weekly data for {ticker} inserted into {table_name}, successfully.")
 
-    visualize_data(db_name, 'SPY_weekly')
-    print("Data visualization for 'SPY_weekly' completed successfully.")
+    visualize_data(db_name, table_name)
+    print(f"Data visualization for {table_name} completed successfully.")
