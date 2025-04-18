@@ -35,24 +35,27 @@ def create_db_tables():
     cur = conn.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS articles (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            article_uuid TEXT UNIQUE,
-            title TEXT,
-            pub_date TEXT,
-            year INTEGER,
-            month INTEGER,
-            day INTEGER,
-            language TEXT
-        )
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            article_uuid TEXT    UNIQUE,
+            title        TEXT    NOT NULL,
+            pub_date     TEXT    NOT NULL,
+            year         INTEGER NOT NULL,
+            month        INTEGER NOT NULL,
+            day          INTEGER NOT NULL,
+            language     TEXT,
+            UNIQUE(title, pub_date)
+        );
     """)
     cur.execute("""
         CREATE TABLE IF NOT EXISTS sentiment (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            article_id INTEGER,
-            sent_pos REAL,
-            sent_neg REAL,
-            sent_neu REAL,
+            article_id INTEGER PRIMARY KEY,
+            sent_pos   REAL,
+            sent_neg   REAL,
+            sent_neu   REAL,
+            score      REAL,
+            magnitude  REAL,
             FOREIGN KEY(article_id) REFERENCES articles(id)
+                             ON DELETE CASCADE
         )
     """)
     conn.commit()
@@ -69,44 +72,41 @@ def insert_news_data_into_db(db_path, articles):
         inserted = 0
 
         for article in chunk:
-            article_id = article.get("id")
-            title = article.get("title")
+            uuid = article.get("id")
+            title = (article.get("title") or "").strip()
             pub_date = article.get("pub_date")
-            language = article.get("language")
-            sentiment = article.get("sentiment", {})
+            lang = article.get("language")
+            sent = article.get("sentiment", {})
 
             try:
                 dt = datetime.fromisoformat(pub_date)
-                year, month, day = dt.year, dt.month, dt.day
             except Exception as e:
                 log(f"Date parse error: {e}")
                 continue
 
-            try:
-                cur.execute("""
-                    INSERT OR IGNORE INTO articles 
-                    (article_uuid, title, pub_date, year, month, day, language)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
-                """, (article_id, title, pub_date, year, month, day, language))
+            cur.execute("""
+                INSERT OR IGNORE INTO articles 
+                (article_uuid, title, pub_date, year, month, day, language)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (uuid, title, pub_date, dt.year, dt.month, dt.day, lang))
 
-                cur.execute("SELECT id FROM articles WHERE article_uuid = ?", (article_id,))
-                article_row = cur.fetchone()
-                if not article_row:
-                    continue
-                fk_id = article_row[0]
+            cur.execute("SELECT id FROM articles WHERE title=? AND pub_date=?;", (title, pub_date))
+            (article_pk,) = cur.fetchone()
 
-                cur.execute("""
-                    INSERT INTO sentiment (article_id, score, magnitude)
-                    VALUES (?, ?, ?)
-                """, (
-                    fk_id,
-                    sentiment.get("pos", 0.0) +  sentiment.get("neg", 0.0) + sentiment.get("neu", 0.0),
-                    None
-                ))
-                inserted += 1
-            except sqlite3.Error as err:
-                log(f"SQLite error: {err}")
-                continue
+            cur.execute("""
+                INSERT INTO sentiment (article_id, sent_pos, sent_neg, sent_neu)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(article_id) DO UPDATE SET
+                    sent_pos = excluded.sent_pos,
+                    sent_neg = excluded.sent_neg,
+                    sent_neu = excluded.sent_neu;
+            """, (
+                article_pk,
+                sent.get("pos"),
+                sent.get("neg"),
+                sent.get("neu")
+            ))
+            inserted += 1
 
         conn.commit()
         inserted_total += inserted
