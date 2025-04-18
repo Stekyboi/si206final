@@ -37,56 +37,35 @@ def update_sentiment_in_db(article_id, score, magnitude):
     If a row for the article already exists in the sentiment table, it updates it;
     otherwise, it inserts a new row.
     """
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    # Check if the sentiment data for this article already exists
-    cur.execute("SELECT id FROM sentiment WHERE article_id = ?", (article_id,))
-    row = cur.fetchone()
-    if row:
+    with sqlite3.connect(DB_PATH) as conn:
+        cur = conn.cursor()
         cur.execute("""
             UPDATE sentiment
-            SET score = ?, magnitude = ?
-            WHERE article_id = ?
+               SET score     = ?,
+                   magnitude = ?
+             WHERE article_id = ?;
         """, (score, magnitude, article_id))
-    else:
-        cur.execute("""
-            INSERT INTO sentiment (article_id, score, magnitude)
-            VALUES (?, ?, ?)
-        """, (article_id, score, magnitude))
-    conn.commit()
-    conn.close()
+        conn.commit()
 
 def main():
-    # Connect to the SQLite database
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
+    with sqlite3.connect(DB_PATH) as conn:
+        cur = conn.cursor()
 
-    # Select articles that have no sentiment data yet.
-    # (We use a LEFT JOIN to check if there is an existing row in the sentiment table.)
-    cur.execute("""
-        SELECT a.id, a.title
-        FROM articles a
-        LEFT JOIN sentiment s ON a.id = s.article_id
-    """)
-    articles = cur.fetchall()
-    conn.close()
-
-    if not articles:
-        print("No new articles require sentiment analysis.")
-        return
+        cur.execute("""
+            SELECT a.id, a.title
+            FROM   articles  AS a
+            JOIN   sentiment AS s
+              ON   a.id = s.article_id
+        """)
+        todo = cur.fetchall()
 
     # Process each article for sentiment analysis
-    for article_id, title in articles:
+    for pk, title in todo:
         try:
-            print(f"Analyzing sentiment for article {article_id} with title: {title}")
-
-            score, magnitude = analyze_text_sentiment(title)
-
-            # Update the database with the sentiment analysis results
-            update_sentiment_in_db(article_id, score, magnitude)
-            print(f"Updated article {article_id} sentiment: score={score}, magnitude={magnitude}")
-        except Exception as e:
-            print(f"Error processing article {article_id}: {e}")
+            score, mag = analyze_text_sentiment(title)
+            update_sentiment_in_db(pk, score, mag)
+        except Exception as err:
+            print(f"[{pk}] {err}")
 
 if __name__ == '__main__':
     main()
