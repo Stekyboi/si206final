@@ -156,10 +156,10 @@ if __name__ == "__main__":
     api_key = get_api_key('api_key.txt')
     print("API key retrieved successfully.")
 
-    ticker = 'NDAQ'
+    ticker = 'DIA'
     data_type = 'json'
-    db_name = 'stock_data.db'
-    table_name = 'NASDAQ_weekly'
+    db_name = 'news_articles.db'
+    table_name = 'DJI_Avg_weekly'
 
     # create_db_and_table(db_name, table_name)
     # print(f"Database '{db_name}' and table '{table_name}' created successfully.")
