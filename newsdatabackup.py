@@ -35,8 +35,6 @@ def create_db_tables():
             year         INTEGER NOT NULL,
             month        INTEGER NOT NULL,
             day          INTEGER NOT NULL,
-            description  TEXT,
-            snippet      TEXT,
             language     TEXT,
             UNIQUE(title, pub_date)
         );
@@ -94,21 +92,15 @@ def insert_articles(articles):
             pub = art["published_at"]
             dt = datetime.fromisoformat(pub)
             y, m, d = dt.year, dt.month, dt.day
-            desc = art["description"]
-            snip = art["snippet"]
             print(f"uuid: {uuid}, title: {title}, pub: {pub}")
             cur.execute("""
                 INSERT OR IGNORE INTO articles
-                (article_uuid, title, pub_date, year, month, day, description, snippet, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (uuid, title, pub, y, m, d, desc, snip, art.get("language", "en")))
+                (article_uuid, title, pub_date, year, month, day, language)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (uuid, title, pub, y, m, d, art.get("language", "en")))
 
             cur.execute("SELECT id FROM articles WHERE article_uuid = ?", (uuid,))
-            row = cur.fetchone()
-            if not row:
-                # No article row found (perhaps duplicate), so skip sentiment insert
-                continue
-            pk = row[0]
+            (pk,) = cur.fetchone()
 
             cur.execute("INSERT OR IGNORE INTO sentiment (article_id) VALUES (?)", (pk,))
             inserted += 1
@@ -141,27 +133,25 @@ def main():
     if prog["phase"] == "final":
         year = prog["year"]
         month = prog["month"]
-        calls = 0
+        all_articles = []
 
-        while calls < DAILY_LIMIT and (year < END_YEAR or (year == END_YEAR and month <= 12)):
-            print(f"Fetching top stories for {year}-{month:02d}")
-            arts = fetch_top_stories(api_token, year, month)
-            insert_articles(arts)
-            calls += CALLS_PER_MONTH
-
+        # loop from (year,month) through END_YEAR/Dec
+        while year < END_YEAR or (year == END_YEAR and month <= 12):
+            print(f"▶ Fetching top stories for {year}-{month:02d}")
+            batch = fetch_top_stories(api_token, year, month)
+            all_articles.extend(batch)
             # advance month/year
             month += 1
             if month > 12:
                 month = 1
                 year += 1
-
-            # save after each month
-            prog["year"], prog["month"] = year, month
-            save_progress(prog)
             time.sleep(1)
 
-        print(f"Done. Used {calls}/{DAILY_LIMIT} calls this run.")
-        return
+        print(f"Fetched {len(all_articles)} total articles; inserting now…")
+        insert_articles(all_articles)
+        # mark done
+        save_progress({"phase": "done"})
+        print("All data inserted; migration complete.")
 
 if __name__ == "__main__":
     main()
