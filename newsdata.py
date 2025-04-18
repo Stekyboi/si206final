@@ -96,13 +96,12 @@ def insert_news_data_into_db(db_path, articles):
                 fk_id = article_row[0]
 
                 cur.execute("""
-                    INSERT INTO sentiment (article_id, sent_pos, sent_neg, sent_neu)
-                    VALUES (?, ?, ?, ?)
+                    INSERT INTO sentiment (article_id, score, magnitude)
+                    VALUES (?, ?, ?)
                 """, (
                     fk_id,
-                    sentiment.get("pos", 0.0),
-                    sentiment.get("neg", 0.0),
-                    sentiment.get("neu", 0.0)
+                    sentiment.get("pos", 0.0) +  sentiment.get("neg", 0.0) + sentiment.get("neu", 0.0),
+                    None
                 ))
                 inserted += 1
             except sqlite3.Error as err:
