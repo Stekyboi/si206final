@@ -22,7 +22,7 @@ def calculate_stock_statistics(db_name, ticker):
     Calculate statistics on stock data.
     
     Args:
-        db_name (str): Stock database file name.
+        db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
         
     Returns:
@@ -103,7 +103,7 @@ def calculate_sentiment_statistics(db_name):
     Calculate statistics on news sentiment data.
     
     Args:
-        db_name (str): News database file name.
+        db_name (str): Database file name.
         
     Returns:
         tuple: (DataFrame with statistics, output file path)
@@ -178,13 +178,12 @@ def calculate_sentiment_statistics(db_name):
     
     return monthly_stats, output_file
 
-def calculate_correlation(stock_db, news_db, ticker):
+def calculate_correlation(db_name, ticker):
     """
     Calculate correlation between stock returns and news sentiment.
     
     Args:
-        stock_db (str): Stock database file name.
-        news_db (str): News database file name.
+        db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
         
     Returns:
@@ -193,43 +192,33 @@ def calculate_correlation(stock_db, news_db, ticker):
     ensure_output_dir()
     
     # Get stock data by month
-    stock_conn = sqlite3.connect(stock_db)
+    conn = sqlite3.connect(db_name)
     table_name = f"{ticker}_weekly_adjusted"
     stock_query = f"""
         SELECT 
             substr(date, 1, 7) as month,
             AVG(close) as avg_close,
-            AVG(high - low) as avg_range,
-            AVG((close - open) / open) * 100 as avg_daily_return,
-            AVG(volume) as avg_volume
+            AVG((close - open) / open) * 100 as avg_daily_return
         FROM {table_name}
         GROUP BY substr(date, 1, 7)
         ORDER BY month
     """
-    stock_df = pd.read_sql_query(stock_query, stock_conn)
-    stock_conn.close()
+    stock_df = pd.read_sql_query(stock_query, conn)
     
     # Get sentiment data by month
-    news_conn = sqlite3.connect(news_db)
-    news_query = """
+    sentiment_query = """
         SELECT 
             a.year || '-' || CASE WHEN a.month < 10 THEN '0' || a.month ELSE a.month END as month,
-            COUNT(*) as article_count,
             AVG(s.score) as avg_sentiment,
-            AVG(s.magnitude) as avg_magnitude,
-            SUM(CASE WHEN s.score > 0.25 THEN 1 ELSE 0 END) as positive_count,
-            SUM(CASE WHEN s.score < -0.25 THEN 1 ELSE 0 END) as negative_count
+            COUNT(*) as article_count
         FROM articles a
         JOIN sentiment s ON a.id = s.article_id
         WHERE s.score IS NOT NULL
         GROUP BY a.year, a.month
         ORDER BY a.year, a.month
     """
-    sentiment_df = pd.read_sql_query(news_query, news_conn)
-    news_conn.close()
-    
-    # Calculate positive/negative ratio
-    sentiment_df['pos_neg_ratio'] = sentiment_df['positive_count'] / sentiment_df['negative_count'].replace(0, 1)
+    sentiment_df = pd.read_sql_query(sentiment_query, conn)
+    conn.close()
     
     # Merge dataframes
     merged_df = pd.merge(stock_df, sentiment_df, on='month', how='inner')
@@ -238,77 +227,79 @@ def calculate_correlation(stock_db, news_db, ticker):
         print("No overlapping data between stock prices and news sentiment.")
         return None, None
     
-    # Calculate correlations
-    correlations = {
-        'Sentiment vs. Daily Return': merged_df['avg_sentiment'].corr(merged_df['avg_daily_return']),
-        'Sentiment vs. Close Price': merged_df['avg_sentiment'].corr(merged_df['avg_close']),
-        'Sentiment vs. Trading Range': merged_df['avg_sentiment'].corr(merged_df['avg_range']),
-        'Sentiment vs. Volume': merged_df['avg_sentiment'].corr(merged_df['avg_volume']),
-        'Magnitude vs. Trading Range': merged_df['avg_magnitude'].corr(merged_df['avg_range']),
-        'Positive/Negative Ratio vs. Daily Return': merged_df['pos_neg_ratio'].corr(merged_df['avg_daily_return'])
-    }
-    
-    # Create correlation dataframe
-    corr_df = pd.DataFrame(list(correlations.items()), columns=['Correlation Pair', 'Coefficient'])
+    # Calculate correlation
+    correlation = merged_df['avg_sentiment'].corr(merged_df['avg_daily_return'])
     
     # Write to file
-    output_file = f"{OUTPUT_DIR}/{ticker}_sentiment_correlation_analysis.txt"
+    output_file = f"{OUTPUT_DIR}/{ticker}_sentiment_correlation.txt"
     with open(output_file, 'w') as f:
-        f.write(f"Correlation Analysis: {ticker} Stock vs. News Sentiment\n")
+        f.write(f"Correlation Analysis: {ticker} vs News Sentiment\n")
         f.write("=" * 60 + "\n\n")
         
-        f.write("CORRELATION COEFFICIENTS\n")
-        f.write("-" * 60 + "\n")
-        for pair, coef in correlations.items():
-            f.write(f"{pair}: {coef:.4f}\n")
+        f.write(f"Correlation between {ticker} returns and news sentiment: {correlation:.4f}\n\n")
         
-        f.write("\n\nMONTHLY DATA USED FOR CORRELATION\n")
+        # Interpretation
+        if correlation > 0.7:
+            interpretation = "Strong positive correlation"
+        elif correlation > 0.3:
+            interpretation = "Moderate positive correlation"
+        elif correlation > -0.3:
+            interpretation = "Weak or no correlation"
+        elif correlation > -0.7:
+            interpretation = "Moderate negative correlation"
+        else:
+            interpretation = "Strong negative correlation"
+        
+        f.write(f"Interpretation: {interpretation}\n\n")
+        
+        # Data table
+        f.write("Monthly Data:\n")
         f.write("-" * 60 + "\n")
         f.write(merged_df.to_string(index=False))
     
     return merged_df, output_file
 
-def run_all_calculations(stock_db, news_db, ticker):
+def run_all_calculations(db_name, ticker):
     """
-    Run all calculations and return list of output files.
+    Run all calculation functions and return paths to output files.
     
     Args:
-        stock_db (str): Stock database file name.
-        news_db (str): News database file name.
+        db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
         
     Returns:
-        list: List of output files created.
+        list: Paths to output files.
     """
     ensure_output_dir()
-    
     output_files = []
     
     # Stock statistics
-    _, stock_file = calculate_stock_statistics(stock_db, ticker)
-    if stock_file:
-        output_files.append(stock_file)
+    print("Calculating stock statistics...")
+    _, output_file = calculate_stock_statistics(db_name, ticker)
+    if output_file:
+        output_files.append(output_file)
     
     # Sentiment statistics
-    _, sentiment_file = calculate_sentiment_statistics(news_db)
-    if sentiment_file:
-        output_files.append(sentiment_file)
+    print("Calculating sentiment statistics...")
+    _, output_file = calculate_sentiment_statistics(db_name)
+    if output_file:
+        output_files.append(output_file)
     
     # Correlation analysis
-    _, correlation_file = calculate_correlation(stock_db, news_db, ticker)
-    if correlation_file:
-        output_files.append(correlation_file)
+    print("Calculating correlation between stock and sentiment...")
+    _, output_file = calculate_correlation(db_name, ticker)
+    if output_file:
+        output_files.append(output_file)
     
     return output_files
 
 if __name__ == "__main__":
     # Example usage
-    stock_db = 'stock_data.db'
-    news_db = 'news_data.db'
-    ticker = 'SPY'
+    db_name = "stock_and_news.db"
+    ticker = "SPY"
     
-    output_files = run_all_calculations(stock_db, news_db, ticker)
+    output_files = run_all_calculations(db_name, ticker)
     
-    print("Generated calculation files:")
+    print("Calculations complete. Output files:")
     for file in output_files:
         print(f" - {file}") 

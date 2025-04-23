@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from api_keys import get_news_api_key
 
 # Database and API information
-DB_NAME = 'news_data.db'
+DB_NAME = 'stock_and_news.db'
 PROGRESS_FILE = 'news_fetch_progress.json'
 BASE_URL = "https://api.thenewsapi.com/v1/news/top"
 MAX_ITEMS_PER_RUN = 25  # Maximum items to insert per run
@@ -38,7 +38,6 @@ def create_news_tables(db_name):
             day INTEGER NOT NULL,
             description TEXT,
             snippet TEXT,
-            language TEXT,
             UNIQUE(title, pub_date)
         );
     """)
@@ -148,8 +147,8 @@ def insert_news_articles(articles, db_name, max_items):
             # Insert article
             cur.execute("""
                 INSERT OR IGNORE INTO articles
-                (article_uuid, title, pub_date, year, month, day, description, snippet, language)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (article_uuid, title, pub_date, year, month, day, description, snippet)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 uuid, 
                 title, 
@@ -158,8 +157,7 @@ def insert_news_articles(articles, db_name, max_items):
                 month, 
                 day, 
                 article.get("description", ""), 
-                article.get("snippet", ""),
-                article.get("language", "en")
+                article.get("snippet", "")
             ))
             
             # Check if article was inserted (not a duplicate)
@@ -200,41 +198,41 @@ def get_news_data(max_items, db_name, api_key_path):
     year = progress["current_year"]
     month = progress["current_month"]
     
-    # Fetch articles
+    # Fetch articles for the current year/month
     articles = fetch_news_articles(year, month, api_key_path)
     
-    # Insert up to max_items
+    # Insert articles into the database
     inserted = insert_news_articles(articles, db_name, max_items)
     
-    # Update progress for next run if we inserted fewer than requested
+    # Update progress
     if inserted < max_items:
-        # Move to next month
+        # Move to next month if we inserted fewer than max_items
         month += 1
         if month > 12:
             month = 1
             year += 1
             
-        # Update progress
-        progress["current_year"] = year
         progress["current_month"] = month
+        progress["current_year"] = year
         progress["offset"] = 0
     else:
-        # Update offset for same month
-        progress["offset"] += max_items
-        
+        # Same month, just update offset
+        progress["offset"] += inserted
+    
+    # Save progress
     save_progress(progress)
     
     return inserted
 
 def count_news_records(db_name):
     """
-    Count the total number of news articles in the database.
+    Count the total number of news records.
     
     Args:
         db_name (str): Database file name.
         
     Returns:
-        int: Total number of articles.
+        int: Total number of records.
     """
     conn = sqlite3.connect(db_name)
     cur = conn.cursor()
@@ -251,12 +249,11 @@ def count_news_records(db_name):
 
 if __name__ == "__main__":
     # Example usage
-    max_items = MAX_ITEMS_PER_RUN
     db_name = DB_NAME
-    api_key_path = 'api_key_thenewsapi.txt'
+    max_items = MAX_ITEMS_PER_RUN
+    api_key_path = "api_key_thenewsapi.txt"
     
+    created = create_news_tables(db_name)
     inserted = get_news_data(max_items, db_name, api_key_path)
-    total = count_news_records(db_name)
     
-    print(f"Inserted {inserted} new news articles.")
-    print(f"Total news articles: {total}") 
+    print(f"Inserted {inserted} new articles into the database.") 

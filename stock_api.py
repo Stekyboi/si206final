@@ -7,7 +7,7 @@ import requests
 from api_keys import get_alpha_vantage_key
 
 # Database information
-DB_NAME = 'stock_data.db'
+DB_NAME = 'stock_and_news.db'
 TABLE_NAME_TEMPLATE = "{}_weekly_adjusted"
 
 def create_stock_tables(db_name, ticker):
@@ -214,13 +214,15 @@ def count_stock_records(ticker, db_name):
     return count
 
 if __name__ == "__main__":
+    # Example usage
     ticker = "SPY"
-    db_name = DB_NAME
-    api_key_path = 'api_key.txt'
     max_items = 25
+    db_name = DB_NAME
+    api_key_path = "api_key.txt"
     
+    created = create_stock_tables(db_name, ticker)
     inserted = get_stock_data(ticker, max_items, db_name, api_key_path)
     total = count_stock_records(ticker, db_name)
     
     print(f"Inserted {inserted} new stock records for {ticker}.")
-    print(f"Total records for {ticker}: {total}") 
+    print(f"Total stock records for {ticker}: {total}") 

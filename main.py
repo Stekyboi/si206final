@@ -23,9 +23,8 @@ import calculations
 import visualization
 
 # Default settings
-STOCK_TICKER = "SPY"  # S&P 500 ETF
-STOCK_DB = "stock_data.db"
-NEWS_DB = "news_data.db"
+STOCK_TICKER = "SPY"
+UNIFIED_DB = "stock_and_news.db"  # Unified database
 MAX_ITEMS_PER_RUN = 25  # Maximum items to process per run
 STOCK_API_KEY_PATH = "api_key.txt"
 NEWS_API_KEY_PATH = "api_key_thenewsapi.txt"
@@ -50,10 +49,10 @@ def check_api_keys():
     return missing
 
 def get_current_counts():
-    """Get current counts of items in the databases."""
-    stock_count = stock_api.count_stock_records(STOCK_TICKER, STOCK_DB)
-    news_count = news_api.count_news_records(NEWS_DB)
-    sentiment_count, sentiment_total = sentiment_api.count_sentiment_records(NEWS_DB)
+    """Get current counts of items in the database."""
+    stock_count = stock_api.count_stock_records(STOCK_TICKER, UNIFIED_DB)
+    news_count = news_api.count_news_records(UNIFIED_DB)
+    sentiment_count, sentiment_total = sentiment_api.count_sentiment_records(UNIFIED_DB)
     
     return {
         'stock': stock_count,
@@ -112,7 +111,7 @@ def process_data():
         stock_api.get_stock_data(
             ticker=STOCK_TICKER,
             max_items=MAX_ITEMS_PER_RUN,
-            db_name=STOCK_DB,
+            db_name=UNIFIED_DB,
             api_key_path=STOCK_API_KEY_PATH
         )
         print("Stock data processed successfully.")
@@ -124,7 +123,7 @@ def process_data():
     try:
         news_api.get_news_data(
             max_items=MAX_ITEMS_PER_RUN,
-            db_name=NEWS_DB,
+            db_name=UNIFIED_DB,
             api_key_path=NEWS_API_KEY_PATH
         )
         print("News data processed successfully.")
@@ -135,7 +134,7 @@ def process_data():
     print("\nProcessing sentiment analysis...")
     try:
         sentiment_api.process_sentiment(
-            db_name=NEWS_DB,
+            db_name=UNIFIED_DB,
             max_items=MAX_ITEMS_PER_RUN
         )
         print("Sentiment analysis processed successfully.")
@@ -154,15 +153,13 @@ def generate_results():
     """Generate calculations and visualizations from the data."""
     print("\nGenerating calculations...")
     calculation_files = calculations.run_all_calculations(
-        stock_db=STOCK_DB,
-        news_db=NEWS_DB,
+        db_name=UNIFIED_DB,
         ticker=STOCK_TICKER
     )
     
     print("\nGenerating visualizations...")
     visualization_files = visualization.generate_all_visualizations(
-        stock_db=STOCK_DB,
-        news_db=NEWS_DB,
+        db_name=UNIFIED_DB,
         ticker=STOCK_TICKER
     )
     

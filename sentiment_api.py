@@ -9,7 +9,7 @@ import google.auth
 from google.cloud import language_v2
 
 # Database information
-DB_NAME = 'news_data.db'
+DB_NAME = 'stock_and_news.db'
 PROGRESS_FILE = 'sentiment_progress.json'
 MAX_ITEMS_PER_RUN = 25  # Maximum items to process per run
 
