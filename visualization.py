@@ -5,9 +5,8 @@ import os
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
-from datetime import datetime
 import numpy as np
+from datetime import datetime
 
 # Output directory for visualizations and data
 OUTPUT_DIR = 'output'
@@ -17,9 +16,9 @@ def ensure_output_dir():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-def visualize_stock_prices(db_name, ticker):
+def visualize_stock_price(db_name, ticker):
     """
-    Create stock price visualization.
+    Create stock price visualization over time.
     
     Args:
         db_name (str): Database file name.
@@ -38,8 +37,7 @@ def visualize_stock_prices(db_name, ticker):
     
     # Query data
     query = f"""
-        SELECT date, open, high, low, close, adjusted_close, volume
-        FROM {table_name}
+        SELECT date, close FROM {table_name}
         ORDER BY date
     """
     
@@ -52,24 +50,13 @@ def visualize_stock_prices(db_name, ticker):
     df.set_index('date', inplace=True)
     
     # Create visualization
-    plt.figure(figsize=(12, 6))
-    
-    # Plot stock prices
-    plt.subplot(2, 1, 1)
-    plt.plot(df.index, df['close'], label='Close Price', color='blue')
-    plt.title(f'{ticker} Stock Price')
-    plt.ylabel('Price ($)')
+    plt.figure(figsize=(10, 5))
+    plt.plot(df.index, df['close'], label='Close Price')
+    plt.title(f'{ticker} Close Price Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Close Price')
     plt.grid(True, alpha=0.3)
     plt.legend()
-    
-    # Plot volume as a bar chart
-    plt.subplot(2, 1, 2)
-    plt.bar(df.index, df['volume'], color='green', alpha=0.7)
-    plt.title(f'{ticker} Trading Volume')
-    plt.ylabel('Volume')
-    plt.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
     
     # Save visualization
     filename = f"{OUTPUT_DIR}/{ticker}_stock_price.png"
@@ -78,72 +65,9 @@ def visualize_stock_prices(db_name, ticker):
     
     return filename
 
-def visualize_news_sentiment(db_name):
+def visualize_stock_sentiment_scatter(db_name, ticker):
     """
-    Create news sentiment visualization.
-    
-    Args:
-        db_name (str): Database file name.
-        
-    Returns:
-        str: Path to saved visualization file.
-    """
-    ensure_output_dir()
-    
-    # Connect to database
-    conn = sqlite3.connect(db_name)
-    
-    # Query data
-    query = """
-        SELECT a.year, a.month, AVG(s.score) as avg_score, AVG(s.magnitude) as avg_magnitude
-        FROM articles a
-        JOIN sentiment s ON a.id = s.article_id
-        WHERE s.score IS NOT NULL
-        GROUP BY a.year, a.month
-        ORDER BY a.year, a.month
-    """
-    
-    # Load data into pandas DataFrame
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    
-    if df.empty:
-        print("No sentiment data available.")
-        return None
-    
-    # Create date column
-    df['date'] = pd.to_datetime(df.apply(lambda row: f"{int(row['year'])}-{int(row['month'])}-01", axis=1))
-    
-    # Create visualization
-    plt.figure(figsize=(12, 6))
-    
-    # Plot sentiment score
-    plt.subplot(2, 1, 1)
-    plt.plot(df['date'], df['avg_score'], marker='o', linestyle='-', color='blue')
-    plt.axhline(y=0, color='r', linestyle='-', alpha=0.3)  # Neutral sentiment line
-    plt.title('Average News Sentiment Score by Month')
-    plt.ylabel('Sentiment Score\n(-1 to 1)')
-    plt.grid(True, alpha=0.3)
-    
-    # Plot sentiment magnitude
-    plt.subplot(2, 1, 2)
-    plt.plot(df['date'], df['avg_magnitude'], marker='o', linestyle='-', color='purple')
-    plt.title('Average News Sentiment Magnitude by Month')
-    plt.ylabel('Magnitude')
-    plt.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    
-    # Save visualization
-    filename = f"{OUTPUT_DIR}/news_sentiment.png"
-    plt.savefig(filename)
-    plt.close()
-    
-    return filename
-
-def visualize_correlation(db_name, ticker):
-    """
-    Create visualization showing correlation between stock prices and news sentiment.
+    Create scatter plot of stock price vs sentiment (score * magnitude).
     
     Args:
         db_name (str): Database file name.
@@ -157,28 +81,29 @@ def visualize_correlation(db_name, ticker):
     # Connect to database
     conn = sqlite3.connect(db_name)
     
-    # Get stock data
+    # Get stock data by month
     table_name = f"{ticker}_weekly_adjusted"
     stock_query = f"""
         SELECT 
             substr(date, 1, 7) as month,
-            AVG(close) as avg_close,
-            AVG((close - open) / open) * 100 as avg_daily_return
+            AVG(close) as avg_close
         FROM {table_name}
         GROUP BY substr(date, 1, 7)
         ORDER BY month
     """
     stock_df = pd.read_sql_query(stock_query, conn)
     
-    # Get sentiment data
+    # Get sentiment data by month
     sentiment_query = """
         SELECT 
             a.year || '-' || CASE WHEN a.month < 10 THEN '0' || a.month ELSE a.month END as month,
-            AVG(s.score) as avg_sentiment,
+            AVG(s.score * s.magnitude) as sentiment_value,
+            AVG(s.score) as avg_score,
+            AVG(s.magnitude) as avg_magnitude,
             COUNT(*) as article_count
         FROM articles a
         JOIN sentiment s ON a.id = s.article_id
-        WHERE s.score IS NOT NULL
+        WHERE s.score IS NOT NULL AND s.magnitude IS NOT NULL
         GROUP BY a.year, a.month
         ORDER BY a.year, a.month
     """
@@ -193,143 +118,45 @@ def visualize_correlation(db_name, ticker):
         return None
     
     # Create visualization
-    plt.figure(figsize=(12, 10))
-    
-    # Plot 1: Stock price vs. sentiment
-    plt.subplot(3, 1, 1)
-    plt.plot(pd.to_datetime(merged_df['month'] + '-01'), merged_df['avg_close'], label='Avg. Close Price', color='blue')
-    plt.title(f'{ticker} Price vs. News Sentiment')
-    plt.ylabel('Price ($)')
-    plt.legend(loc='upper left')
-    
-    plt.twinx()  # Create second y-axis
-    plt.plot(pd.to_datetime(merged_df['month'] + '-01'), merged_df['avg_sentiment'], label='Sentiment Score', color='red', linestyle='--')
-    plt.ylabel('Sentiment Score')
-    plt.axhline(y=0, color='gray', linestyle='-', alpha=0.3)  # Neutral sentiment line
-    plt.legend(loc='upper right')
-    plt.grid(True, alpha=0.3)
-    
-    # Plot 2: Daily return vs. sentiment
-    plt.subplot(3, 1, 2)
-    plt.plot(pd.to_datetime(merged_df['month'] + '-01'), merged_df['avg_daily_return'], label='Avg. Daily Return', color='green')
-    plt.title(f'{ticker} Returns vs. News Sentiment')
-    plt.ylabel('Daily Return (%)')
-    plt.legend(loc='upper left')
-    
-    plt.twinx()  # Create second y-axis
-    plt.plot(pd.to_datetime(merged_df['month'] + '-01'), merged_df['avg_sentiment'], label='Sentiment Score', color='red', linestyle='--')
-    plt.ylabel('Sentiment Score')
-    plt.axhline(y=0, color='gray', linestyle='-', alpha=0.3)  # Neutral sentiment line
-    plt.legend(loc='upper right')
-    plt.grid(True, alpha=0.3)
-    
-    # Plot 3: Scatter plot of returns vs. sentiment
-    plt.subplot(3, 1, 3)
-    plt.scatter(merged_df['avg_sentiment'], merged_df['avg_daily_return'], alpha=0.7)
-    plt.title('Correlation: News Sentiment vs. Stock Returns')
-    plt.xlabel('Sentiment Score')
-    plt.ylabel('Daily Return (%)')
-    
-    # Add regression line
-    m, b = np.polyfit(merged_df['avg_sentiment'], merged_df['avg_daily_return'], 1)
-    plt.plot(merged_df['avg_sentiment'], m*merged_df['avg_sentiment'] + b, color='red')
-    
-    # Add correlation coefficient
-    correlation = merged_df['avg_sentiment'].corr(merged_df['avg_daily_return'])
-    plt.annotate(f"Correlation: {correlation:.4f}", 
-                 xy=(0.05, 0.95),
-                 xycoords='axes fraction',
-                 fontsize=10,
-                 backgroundcolor='white',
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-    
-    plt.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
-    
-    # Save visualization
-    filename = f"{OUTPUT_DIR}/{ticker}_correlation.png"
-    plt.savefig(filename)
-    plt.close()
-    
-    return filename
-
-def visualize_sentiment_distribution(db_name):
-    """
-    Create visualization of sentiment distribution.
-    
-    Args:
-        db_name (str): Database file name.
-        
-    Returns:
-        str: Path to saved visualization file.
-    """
-    ensure_output_dir()
-    
-    # Connect to database
-    conn = sqlite3.connect(db_name)
-    
-    # Query data
-    query = """
-        SELECT s.score
-        FROM articles a
-        JOIN sentiment s ON a.id = s.article_id
-        WHERE s.score IS NOT NULL
-    """
-    
-    # Load data into pandas DataFrame
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    
-    if df.empty:
-        print("No sentiment data available.")
-        return None
-    
-    # Create visualization
     plt.figure(figsize=(10, 6))
     
-    # Create histogram of sentiment scores
-    sns.histplot(df['score'], bins=20, kde=True)
-    plt.title('Distribution of News Sentiment Scores')
-    plt.xlabel('Sentiment Score (-1 to 1)')
-    plt.ylabel('Frequency')
+    # Scatter plot with point size based on article count
+    scatter = plt.scatter(merged_df['sentiment_value'], 
+                          merged_df['avg_close'], 
+                          alpha=0.7,
+                          s=merged_df['article_count'] * 5,  # Size based on number of articles
+                          c=merged_df['avg_score'],  # Color based on sentiment score
+                          cmap='RdYlGn')
     
-    # Add vertical lines for sentiment categories
-    plt.axvline(x=-0.25, color='r', linestyle='--', alpha=0.7, label='Negative Threshold')
-    plt.axvline(x=0.25, color='g', linestyle='--', alpha=0.7, label='Positive Threshold')
+    # Add color bar
+    cbar = plt.colorbar(scatter)
+    cbar.set_label('Sentiment Score')
     
-    # Add counts and percentages
-    total = len(df)
-    positive = df[df['score'] > 0.25].shape[0]
-    negative = df[df['score'] < -0.25].shape[0]
-    neutral = total - positive - negative
+    # Add labels and title
+    plt.title(f'{ticker} Stock Price vs News Sentiment')
+    plt.xlabel('Sentiment Value (Score × Magnitude)')
+    plt.ylabel('Average Stock Price')
     
-    plt.annotate(f"Positive: {positive} ({positive/total*100:.1f}%)", 
-                 xy=(0.7, 0.9),
-                 xycoords='axes fraction',
-                 fontsize=10,
-                 backgroundcolor='white',
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-                 
-    plt.annotate(f"Neutral: {neutral} ({neutral/total*100:.1f}%)", 
-                 xy=(0.7, 0.8),
-                 xycoords='axes fraction',
-                 fontsize=10,
-                 backgroundcolor='white',
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-                 
-    plt.annotate(f"Negative: {negative} ({negative/total*100:.1f}%)", 
-                 xy=(0.7, 0.7),
-                 xycoords='axes fraction',
-                 fontsize=10,
-                 backgroundcolor='white',
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
+    # Add regression line
+    if len(merged_df) > 1:  # Need at least 2 points for regression
+        m, b = np.polyfit(merged_df['sentiment_value'], merged_df['avg_close'], 1)
+        plt.plot(merged_df['sentiment_value'], m*merged_df['sentiment_value'] + b, 
+                 color='red', linestyle='--', label='Trend Line')
+    
+        # Add correlation coefficient
+        correlation = merged_df['sentiment_value'].corr(merged_df['avg_close'])
+        plt.annotate(f"Correlation: {correlation:.4f}", 
+                     xy=(0.05, 0.95),
+                     xycoords='axes fraction',
+                     fontsize=10,
+                     backgroundcolor='white',
+                     bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
     
     plt.grid(True, alpha=0.3)
     plt.legend()
     
     # Save visualization
-    filename = f"{OUTPUT_DIR}/sentiment_distribution.png"
+    filename = f"{OUTPUT_DIR}/{ticker}_sentiment_scatter.png"
     plt.savefig(filename)
     plt.close()
     
@@ -351,25 +178,13 @@ def generate_all_visualizations(db_name, ticker):
     
     # Stock price visualization
     print("Generating stock price visualization...")
-    viz_file = visualize_stock_prices(db_name, ticker)
+    viz_file = visualize_stock_price(db_name, ticker)
     if viz_file:
         output_files.append(viz_file)
     
-    # News sentiment visualization
-    print("Generating news sentiment visualization...")
-    viz_file = visualize_news_sentiment(db_name)
-    if viz_file:
-        output_files.append(viz_file)
-    
-    # Correlation visualization
-    print("Generating correlation visualization...")
-    viz_file = visualize_correlation(db_name, ticker)
-    if viz_file:
-        output_files.append(viz_file)
-    
-    # Sentiment distribution visualization
-    print("Generating sentiment distribution visualization...")
-    viz_file = visualize_sentiment_distribution(db_name)
+    # Stock price vs sentiment scatter plot
+    print("Generating stock price vs sentiment scatter plot...")
+    viz_file = visualize_stock_sentiment_scatter(db_name, ticker)
     if viz_file:
         output_files.append(viz_file)
     
