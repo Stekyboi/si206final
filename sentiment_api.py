@@ -23,7 +23,7 @@ def load_progress():
     if os.path.exists(PROGRESS_FILE):
         with open(PROGRESS_FILE, 'r') as f:
             return json.load(f)
-    return {"last_processed_id": 0}
+    return {"last_processed_id": 0, "run_count": 0}
 
 def save_progress(state):
     """
@@ -98,11 +98,15 @@ def analyze_sentiment(text):
 def process_sentiment(db_name, max_items):
     """
     Process sentiment for news articles without sentiment scores.
-    Processes exactly max_items articles per run (or fewer if not enough unprocessed items).
+    
+    Behavior varies by run count:
+    - First three runs (run_count < 3): Process up to max_items articles per run
+    - Fourth run and beyond (run_count >= 3): Process ALL remaining articles without
+      limiting to max_items, ensuring complete sentiment analysis
     
     Args:
         db_name (str): Database file name.
-        max_items (int): Maximum number of items to process.
+        max_items (int): Maximum number of items to process in first three runs.
         
     Returns:
         int: Number of articles processed.
@@ -110,19 +114,28 @@ def process_sentiment(db_name, max_items):
     # Load progress
     progress = load_progress()
     last_id = progress.get("last_processed_id", 0)
+    run_count = progress.get("run_count", 0)
     
     conn = sqlite3.connect(db_name)
     cur = conn.cursor()
     
+    # Determine query limit based on run count
+    if run_count < 3:
+        # For runs 0-2, limit to max_items
+        limit_clause = f"LIMIT {max_items}"
+    else:
+        # For run 3 and beyond, no limit - process all remaining items
+        limit_clause = ""
+    
     # Find articles that need sentiment analysis
-    cur.execute("""
+    cur.execute(f"""
         SELECT a.id, a.title, a.description, a.snippet 
         FROM articles a
         JOIN sentiment s ON a.id = s.article_id
         WHERE s.score IS NULL AND a.id > ?
         ORDER BY a.id
-        LIMIT ?
-    """, (last_id, max_items))
+        {limit_clause}
+    """, (last_id,))
     
     articles = cur.fetchall()
     processed = 0
@@ -160,8 +173,9 @@ def process_sentiment(db_name, max_items):
     
     # Only update progress if we processed something or found articles
     if processed > 0 or articles:
-        # Update progress to the highest ID we've seen
+        # Update progress to the highest ID we've seen and increment run count
         progress["last_processed_id"] = highest_id
+        progress["run_count"] = run_count + 1
         save_progress(progress)
     
     conn.commit()
