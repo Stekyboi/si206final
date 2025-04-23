@@ -3,7 +3,7 @@ Centralized management of API keys for the project.
 All API key loading functions are located here.
 """
 
-def get_alpha_vantage_key(filepath):
+def get_stock_api_key(filepath):
     """Read the Alpha Vantage API key from the specified file."""
     with open(filepath, 'r', encoding='utf-8') as f:
         key = f.readline().strip()
