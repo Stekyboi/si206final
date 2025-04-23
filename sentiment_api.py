@@ -98,6 +98,7 @@ def analyze_sentiment(text):
 def process_sentiment(db_name, max_items):
     """
     Process sentiment for news articles without sentiment scores.
+    Processes exactly max_items articles per run (or fewer if not enough unprocessed items).
     
     Args:
         db_name (str): Database file name.
@@ -125,6 +126,7 @@ def process_sentiment(db_name, max_items):
     
     articles = cur.fetchall()
     processed = 0
+    highest_id = last_id  # Track the highest ID we've processed
     
     for article in articles:
         article_id, title, description, snippet = article
@@ -133,7 +135,8 @@ def process_sentiment(db_name, max_items):
         text = build_text_for_analysis(title, description, snippet)
         
         if not text:
-            # Skip if no text to analyze
+            # Skip if no text to analyze, but still update highest_id
+            highest_id = max(highest_id, article_id)
             continue
             
         try:
@@ -148,18 +151,21 @@ def process_sentiment(db_name, max_items):
             """, (score, magnitude, article_id))
             
             processed += 1
-            
-            # Update progress
-            progress["last_processed_id"] = article_id
+            highest_id = max(highest_id, article_id)
             
         except Exception as e:
             print(f"Error processing article {article_id}: {e}")
+            # Still update highest_id even if analysis fails
+            highest_id = max(highest_id, article_id)
+    
+    # Only update progress if we processed something or found articles
+    if processed > 0 or articles:
+        # Update progress to the highest ID we've seen
+        progress["last_processed_id"] = highest_id
+        save_progress(progress)
     
     conn.commit()
     conn.close()
-    
-    # Save progress
-    save_progress(progress)
     
     return processed
 

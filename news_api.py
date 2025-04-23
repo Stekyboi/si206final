@@ -198,31 +198,60 @@ def get_news_data(max_items, db_name, api_key_path):
     year = progress["current_year"]
     month = progress["current_month"]
     
-    # Fetch articles for the current year/month
-    articles = fetch_news_articles(year, month, api_key_path)
+    # Keep track of total inserted this run
+    total_inserted = 0
     
-    # Insert articles into the database
-    inserted = insert_news_articles(articles, db_name, max_items)
+    # Continue fetching until we have max_items or can't fetch more
+    while total_inserted < max_items:
+        # Fetch articles for the current year/month
+        articles = fetch_news_articles(year, month, api_key_path)
+        
+        # If no articles for this month, move to next month
+        if not articles:
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            progress["current_month"] = month
+            progress["current_year"] = year
+            progress["offset"] = 0
+            save_progress(progress)
+            continue
+        
+        # Calculate how many more we need
+        remaining = max_items - total_inserted
+        
+        # Insert articles into the database
+        inserted = insert_news_articles(articles, db_name, remaining)
+        total_inserted += inserted
+        
+        # If we didn't get as many as we wanted, move to next month
+        if inserted < remaining and inserted < len(articles):
+            # Move to next month
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            progress["current_month"] = month
+            progress["current_year"] = year
+            progress["offset"] = 0
+        else:
+            # Same month, just update offset
+            progress["offset"] += inserted
+        
+        # Save progress
+        save_progress(progress)
+        
+        # If we didn't insert anything and moved to a new month/year, 
+        # but still haven't reached max_items, continue the loop
+        if inserted == 0 and total_inserted < max_items:
+            continue
+        
+        # If we got what we wanted or couldn't get more, break
+        if total_inserted >= max_items or inserted == 0:
+            break
     
-    # Update progress
-    if inserted < max_items:
-        # Move to next month if we inserted fewer than max_items
-        month += 1
-        if month > 12:
-            month = 1
-            year += 1
-            
-        progress["current_month"] = month
-        progress["current_year"] = year
-        progress["offset"] = 0
-    else:
-        # Same month, just update offset
-        progress["offset"] += inserted
-    
-    # Save progress
-    save_progress(progress)
-    
-    return inserted
+    return total_inserted
 
 def count_news_records(db_name):
     """

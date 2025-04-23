@@ -78,6 +78,12 @@ def print_status(before_counts, after_counts):
         print(f"News articles: {before_counts['news']} → {after_counts['news']} articles (+{after_counts['news'] - before_counts['news']})")
         print(f"Sentiment analysis: {before_counts['sentiment_analyzed']}/{before_counts['sentiment_total']} → {after_counts['sentiment_analyzed']}/{after_counts['sentiment_total']} articles")
         print("="*60)
+        
+        # Show progress toward 100+ goal
+        print("\nProgress toward 100+ items per API:")
+        print(f"Stock data: {after_counts['stock']}/100 records ({min(after_counts['stock']/100*100, 100):.1f}%)")
+        print(f"News articles: {after_counts['news']}/100 articles ({min(after_counts['news']/100*100, 100):.1f}%)")
+        print(f"Sentiment analysis: {after_counts['sentiment_analyzed']}/{after_counts['sentiment_total']} articles ({min(after_counts['sentiment_analyzed']/100*100, 100):.1f}%)")
     else:
         # Print current status
         counts = get_current_counts()
@@ -88,10 +94,17 @@ def print_status(before_counts, after_counts):
         print(f"News articles: {counts['news']} articles")
         print(f"Sentiment analysis: {counts['sentiment_analyzed']}/{counts['sentiment_total']} articles")
         print("="*60)
+        
+        # Show progress toward 100+ goal
+        print("\nProgress toward 100+ items per API:")
+        print(f"Stock data: {counts['stock']}/100 records ({min(counts['stock']/100*100, 100):.1f}%)")
+        print(f"News articles: {counts['news']}/100 articles ({min(counts['news']/100*100, 100):.1f}%)")
+        print(f"Sentiment analysis: {counts['sentiment_analyzed']}/100 articles ({min(counts['sentiment_analyzed']/100*100, 100):.1f}%)")
 
 def process_data():
     """
     Main function to process the next batch of data.
+    Each API will process exactly 25 items per run.
     Returns True if processing was successful, False otherwise.
     """
     # Check API keys
@@ -105,39 +118,39 @@ def process_data():
     # Get counts before processing
     before_counts = get_current_counts()
     
-    # Process stock data
+    # Process stock data - always 25 items per run
     print("\nProcessing stock data...")
     try:
-        stock_api.get_stock_data(
+        stock_inserted = stock_api.get_stock_data(
             ticker=STOCK_TICKER,
             max_items=MAX_ITEMS_PER_RUN,
             db_name=UNIFIED_DB,
             api_key_path=STOCK_API_KEY_PATH
         )
-        print("Stock data processed successfully.")
+        print(f"Stock data processed successfully. Inserted {stock_inserted} new records.")
     except Exception as e:
         print(f"Error processing stock data: {e}")
     
-    # Process news data
+    # Process news data - always up to 25 items per run
     print("\nProcessing news data...")
     try:
-        news_api.get_news_data(
+        news_inserted = news_api.get_news_data(
             max_items=MAX_ITEMS_PER_RUN,
             db_name=UNIFIED_DB,
             api_key_path=NEWS_API_KEY_PATH
         )
-        print("News data processed successfully.")
+        print(f"News data processed successfully. Inserted {news_inserted} new articles.")
     except Exception as e:
         print(f"Error processing news data: {e}")
     
-    # Process sentiment analysis
+    # Process sentiment analysis - always up to 25 items per run
     print("\nProcessing sentiment analysis...")
     try:
-        sentiment_api.process_sentiment(
+        sentiment_processed = sentiment_api.process_sentiment(
             db_name=UNIFIED_DB,
             max_items=MAX_ITEMS_PER_RUN
         )
-        print("Sentiment analysis processed successfully.")
+        print(f"Sentiment analysis processed successfully. Analyzed {sentiment_processed} articles.")
     except Exception as e:
         print(f"Error processing sentiment analysis: {e}")
     

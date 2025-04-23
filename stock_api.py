@@ -45,7 +45,8 @@ def create_stock_tables(db_name, ticker):
     cur.execute("""
         CREATE TABLE IF NOT EXISTS fetch_state_stocks (
             table_name TEXT PRIMARY KEY,
-            last_date_processed TEXT
+            last_date_processed TEXT,
+            run_count INTEGER DEFAULT 0
         );
     """)
 
@@ -90,8 +91,8 @@ def fetch_stock_data(ticker, api_key_path):
 def insert_stock_data(data, db_name, ticker, max_items):
     """
     Insert up to max_items weekly data points into the database.
-    Tracks progress to ensure we don't insert duplicates and
-    can continue on subsequent runs.
+    First three runs insert earliest non-inserted values, subsequent runs
+    insert the entire API response.
     
     Args:
         data (dict): API response data containing time series.
@@ -107,23 +108,45 @@ def insert_stock_data(data, db_name, ticker, max_items):
     conn = sqlite3.connect(db_name)
     cur = conn.cursor()
 
-    # Retrieve last processed date
-    cur.execute("SELECT last_date_processed FROM fetch_state_stocks WHERE table_name = ?", 
+    # Retrieve last processed date and run count
+    cur.execute("SELECT last_date_processed, run_count FROM fetch_state_stocks WHERE table_name = ?", 
                 (table_name,))
     row = cur.fetchone()
     last_date = row[0] if row else None
+    run_count = row[1] if row and row[1] is not None else 0
 
     ts = data["Weekly Adjusted Time Series"]
-    dates = sorted(ts.keys(), reverse=True)
-
-    # Determine starting point
-    if last_date and last_date in dates:
-        start_idx = dates.index(last_date) + 1
-    else:
-        start_idx = 0
-
+    dates = sorted(ts.keys())  # Sort chronologically (oldest first)
+    
     # Determine chunk to insert
-    chunk = dates[start_idx:start_idx + max_items]  
+    chunk = []
+    if run_count < 3:
+        # For first three runs, insert earliest 25 values
+        existing_dates = set()
+        cur.execute(f"SELECT date FROM {table_name}")
+        for row in cur.fetchall():
+            existing_dates.add(row[0])
+        
+        for date in dates:
+            if date not in existing_dates:
+                chunk.append(date)
+                if len(chunk) >= max_items:
+                    break
+    else:
+        # After third run, insert all remaining data
+        existing_dates = set()
+        cur.execute(f"SELECT date FROM {table_name}")
+        for row in cur.fetchall():
+            existing_dates.add(row[0])
+            
+        for date in dates:
+            if date not in existing_dates:
+                chunk.append(date)
+    
+    # If we have too many, limit to max_items
+    if len(chunk) > max_items:
+        chunk = chunk[:max_items]
+        
     if not chunk:
         print("No new data to insert.")
         conn.close()
@@ -149,17 +172,19 @@ def insert_stock_data(data, db_name, ticker, max_items):
         ))
         inserted += 1
 
-    # Update fetch_state
-    new_last_date = chunk[-1]
+    # Update fetch_state with new run_count
+    new_run_count = run_count + 1
+    new_last_date = chunk[-1] if chunk else last_date
+    
     if row:
         cur.execute(
-            "UPDATE fetch_state_stocks SET last_date_processed = ? WHERE table_name = ?",
-            (new_last_date, table_name)
+            "UPDATE fetch_state_stocks SET last_date_processed = ?, run_count = ? WHERE table_name = ?",
+            (new_last_date, new_run_count, table_name)
         )
     else:
         cur.execute(
-            "INSERT INTO fetch_state_stocks (table_name, last_date_processed) VALUES (?, ?)",
-            (table_name, new_last_date)
+            "INSERT INTO fetch_state_stocks (table_name, last_date_processed, run_count) VALUES (?, ?, ?)",
+            (table_name, new_last_date, new_run_count)
         )
 
     conn.commit()
