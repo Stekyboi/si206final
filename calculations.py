@@ -1,13 +1,10 @@
 """
-Calculations module for analyzing stock and news data.
-This module performs calculations on data from both databases
-and writes results to output files.
+Simplified calculations module for analyzing stock and news data.
 """
 import os
 import sqlite3
 import pandas as pd
 import numpy as np
-from datetime import datetime
 
 # Output directory for calculation results
 OUTPUT_DIR = 'output'
@@ -17,29 +14,24 @@ def ensure_output_dir():
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
-def calculate_stock_statistics(db_name, ticker):
+def calculate_basic_stats(db_name, ticker_table):
     """
-    Calculate statistics on stock data.
+    Calculate basic statistics on stock data.
     
     Args:
         db_name (str): Database file name.
-        ticker (str): Stock ticker symbol.
+        ticker_table (str): Stock ticker table name.
         
     Returns:
-        tuple: (DataFrame with statistics, output file path)
+        dict: Dictionary with basic statistics.
     """
-    ensure_output_dir()
-    
     # Connect to database
     conn = sqlite3.connect(db_name)
     
-    # Get table name
-    table_name = f"{ticker}_weekly_adjusted"
-    
     # Query data
     query = f"""
-        SELECT date, open, high, low, close, adjusted_close, volume
-        FROM {table_name}
+        SELECT date, open, high, low, close, volume
+        FROM {ticker_table}
         ORDER BY date
     """
     
@@ -47,58 +39,22 @@ def calculate_stock_statistics(db_name, ticker):
     df = pd.read_sql_query(query, conn)
     conn.close()
     
-    # Convert date to datetime
-    df['date'] = pd.to_datetime(df['date'])
+    # Calculate basic statistics
+    stats = {
+        'count': len(df),
+        'close_mean': df['close'].mean(),
+        'close_min': df['close'].min(),
+        'close_max': df['close'].max(),
+        'close_variance': df['close'].var(),
+        'volume_mean': df['volume'].mean(),
+        'volume_variance': df['volume'].var(),
+        'date_min': df['date'].min(),
+        'date_max': df['date'].max()
+    }
     
-    # Calculate daily returns
-    df['daily_return'] = (df['close'] - df['open']) / df['open'] * 100
-    
-    # Calculate weekly returns (from previous row)
-    df['weekly_return'] = df['close'].pct_change() * 100
-    
-    # Calculate volatility (rolling 4-week standard deviation of returns)
-    df['volatility'] = df['weekly_return'].rolling(window=4).std()
-    
-    # Calculate statistics by month
-    df['month'] = df['date'].dt.strftime('%Y-%m')
-    
-    monthly_stats = df.groupby('month').agg({
-        'close': ['mean', 'min', 'max'],
-        'volume': ['mean', 'min', 'max', 'sum'],
-        'daily_return': ['mean', 'min', 'max', 'std'],
-        'weekly_return': ['mean', 'min', 'max', 'std'],
-        'volatility': 'mean'
-    }).reset_index()
-    
-    # Flatten the column hierarchy
-    monthly_stats.columns = ['_'.join(col).strip('_') for col in monthly_stats.columns.values]
-    
-    # Write to file
-    output_file = f"{OUTPUT_DIR}/{ticker}_statistics.txt"
-    with open(output_file, 'w') as f:
-        f.write(f"Stock Statistics: {ticker}\n")
-        f.write("=" * 50 + "\n\n")
-        
-        # Overall statistics
-        f.write("OVERALL STATISTICS\n")
-        f.write("-" * 50 + "\n")
-        f.write(f"Date Range: {df['date'].min().strftime('%Y-%m-%d')} to {df['date'].max().strftime('%Y-%m-%d')}\n")
-        f.write(f"Number of Weeks: {len(df)}\n")
-        f.write(f"Average Close Price: ${df['close'].mean():.2f}\n")
-        f.write(f"Highest Close Price: ${df['close'].max():.2f} on {df.loc[df['close'].idxmax(), 'date'].strftime('%Y-%m-%d')}\n")
-        f.write(f"Lowest Close Price: ${df['close'].min():.2f} on {df.loc[df['close'].idxmin(), 'date'].strftime('%Y-%m-%d')}\n")
-        f.write(f"Average Daily Return: {df['daily_return'].mean():.2f}%\n")
-        f.write(f"Average Weekly Return: {df['weekly_return'].mean():.2f}%\n")
-        f.write(f"Average Volatility: {df['volatility'].mean():.2f}\n\n")
-        
-        # Monthly statistics
-        f.write("MONTHLY STATISTICS\n")
-        f.write("-" * 50 + "\n")
-        f.write(monthly_stats.to_string(index=False))
-    
-    return monthly_stats, output_file
+    return stats
 
-def calculate_sentiment_statistics(db_name):
+def calculate_sentiment_stats(db_name):
     """
     Calculate statistics on news sentiment data.
     
@@ -106,22 +62,17 @@ def calculate_sentiment_statistics(db_name):
         db_name (str): Database file name.
         
     Returns:
-        tuple: (DataFrame with statistics, output file path)
+        dict: Dictionary with sentiment statistics.
     """
-    ensure_output_dir()
-    
     # Connect to database
     conn = sqlite3.connect(db_name)
     
     # Query data
     query = """
-        SELECT 
-            a.id, a.title, a.pub_date, a.year, a.month, a.day,
-            s.score, s.magnitude
+        SELECT s.score, s.magnitude
         FROM articles a
         JOIN sentiment s ON a.id = s.article_id
         WHERE s.score IS NOT NULL
-        ORDER BY a.pub_date
     """
     
     # Load data into pandas DataFrame
@@ -129,87 +80,60 @@ def calculate_sentiment_statistics(db_name):
     conn.close()
     
     if df.empty:
-        print("No sentiment data available.")
-        return None, None
+        return None
     
-    # Create month field for grouping
-    df['month_year'] = df.apply(lambda row: f"{row['year']}-{row['month']:02d}", axis=1)
+    # Calculate basic statistics
+    stats = {
+        'count': len(df),
+        'score_mean': df['score'].mean(),
+        'score_min': df['score'].min(),
+        'score_max': df['score'].max(),
+        'score_variance': df['score'].var(),
+        'magnitude_mean': df['magnitude'].mean(),
+        'magnitude_min': df['magnitude'].min(),
+        'magnitude_max': df['magnitude'].max(),
+        'magnitude_variance': df['magnitude'].var()
+    }
     
-    # Calculate statistics by month
-    monthly_stats = df.groupby('month_year').agg({
-        'id': 'count',
-        'score': ['mean', 'min', 'max', 'std'],
-        'magnitude': ['mean', 'min', 'max', 'std']
-    }).reset_index()
+    # Add combined sentiment (score * magnitude)
+    df['combined'] = df['score'] * df['magnitude']
+    stats['combined_mean'] = df['combined'].mean()
     
-    # Flatten the column hierarchy
-    monthly_stats.columns = ['_'.join(col).strip('_') for col in monthly_stats.columns.values]
-    
-    # Rename count column
-    monthly_stats.rename(columns={'id_count': 'article_count'}, inplace=True)
-    
-    # Write to file
-    output_file = f"{OUTPUT_DIR}/sentiment_statistics.txt"
-    with open(output_file, 'w') as f:
-        f.write("News Sentiment Statistics\n")
-        f.write("=" * 50 + "\n\n")
-        
-        # Overall statistics
-        f.write("OVERALL SENTIMENT STATISTICS\n")
-        f.write("-" * 50 + "\n")
-        f.write(f"Total Articles: {len(df)}\n")
-        f.write(f"Date Range: {min(df['pub_date'])} to {max(df['pub_date'])}\n")
-        f.write(f"Average Sentiment Score: {df['score'].mean():.4f}\n")
-        f.write(f"Average Sentiment Magnitude: {df['magnitude'].mean():.4f}\n")
-        
-        # Distribution of sentiment
-        positive = df[df['score'] > 0.25].shape[0]
-        negative = df[df['score'] < -0.25].shape[0]
-        neutral = df[(df['score'] >= -0.25) & (df['score'] <= 0.25)].shape[0]
-        
-        f.write(f"Positive Articles (score > 0.25): {positive} ({positive/len(df)*100:.1f}%)\n")
-        f.write(f"Neutral Articles (-0.25 <= score <= 0.25): {neutral} ({neutral/len(df)*100:.1f}%)\n")
-        f.write(f"Negative Articles (score < -0.25): {negative} ({negative/len(df)*100:.1f}%)\n\n")
-        
-        # Monthly statistics
-        f.write("MONTHLY SENTIMENT STATISTICS\n")
-        f.write("-" * 50 + "\n")
-        f.write(monthly_stats.to_string(index=False))
-    
-    return monthly_stats, output_file
+    return stats
 
-def calculate_correlation(db_name, ticker):
+def calculate_correlation(db_name, ticker_table):
     """
-    Calculate correlation between stock returns and news sentiment.
+    Calculate correlation between stock prices and sentiment.
     
     Args:
         db_name (str): Database file name.
-        ticker (str): Stock ticker symbol.
+        ticker_table (str): Stock ticker table name.
         
     Returns:
-        tuple: (DataFrame with correlation data, output file path)
+        dict: Dictionary with correlation data.
     """
-    ensure_output_dir()
-    
-    # Get stock data by month
+    # Connect to database
     conn = sqlite3.connect(db_name)
-    table_name = f"{ticker}_weekly_adjusted"
+    
+    # Query stock data by month
     stock_query = f"""
         SELECT 
             substr(date, 1, 7) as month,
-            AVG(close) as avg_close,
-            AVG((close - open) / open) * 100 as avg_daily_return
-        FROM {table_name}
+            AVG(close) as avg_price,
+            AVG(volume) as avg_volume
+        FROM {ticker_table}
         GROUP BY substr(date, 1, 7)
         ORDER BY month
     """
     stock_df = pd.read_sql_query(stock_query, conn)
     
-    # Get sentiment data by month
+    # Query sentiment data by month
     sentiment_query = """
         SELECT 
             a.year || '-' || CASE WHEN a.month < 10 THEN '0' || a.month ELSE a.month END as month,
-            AVG(s.score) as avg_sentiment,
+            AVG(s.score) as avg_score,
+            AVG(s.magnitude) as avg_magnitude,
+            AVG(s.score * s.magnitude) as combined_sentiment,
             COUNT(*) as article_count
         FROM articles a
         JOIN sentiment s ON a.id = s.article_id
@@ -220,75 +144,86 @@ def calculate_correlation(db_name, ticker):
     sentiment_df = pd.read_sql_query(sentiment_query, conn)
     conn.close()
     
-    # Merge dataframes
+    # Merge the data
     merged_df = pd.merge(stock_df, sentiment_df, on='month', how='inner')
     
     if merged_df.empty:
-        print("No overlapping data between stock prices and news sentiment.")
-        return None, None
+        return None
     
-    # Calculate correlation
-    correlation = merged_df['avg_sentiment'].corr(merged_df['avg_daily_return'])
+    # Calculate correlations
+    corr = {
+        'price_score_corr': merged_df['avg_price'].corr(merged_df['avg_score']),
+        'price_magnitude_corr': merged_df['avg_price'].corr(merged_df['avg_magnitude']),
+        'price_combined_corr': merged_df['avg_price'].corr(merged_df['combined_sentiment']),
+        'volume_score_corr': merged_df['avg_volume'].corr(merged_df['avg_score']),
+        'volume_magnitude_corr': merged_df['avg_volume'].corr(merged_df['avg_magnitude']),
+        'count': len(merged_df)
+    }
     
-    # Write to file
-    output_file = f"{OUTPUT_DIR}/{ticker}_sentiment_correlation.txt"
-    with open(output_file, 'w') as f:
-        f.write(f"Correlation Analysis: {ticker} vs News Sentiment\n")
-        f.write("=" * 60 + "\n\n")
-        
-        f.write(f"Correlation between {ticker} returns and news sentiment: {correlation:.4f}\n\n")
-        
-        # Interpretation
-        if correlation > 0.7:
-            interpretation = "Strong positive correlation"
-        elif correlation > 0.3:
-            interpretation = "Moderate positive correlation"
-        elif correlation > -0.3:
-            interpretation = "Weak or no correlation"
-        elif correlation > -0.7:
-            interpretation = "Moderate negative correlation"
-        else:
-            interpretation = "Strong negative correlation"
-        
-        f.write(f"Interpretation: {interpretation}\n\n")
-        
-        # Data table
-        f.write("Monthly Data:\n")
-        f.write("-" * 60 + "\n")
-        f.write(merged_df.to_string(index=False))
-    
-    return merged_df, output_file
+    return corr
 
 def run_all_calculations(db_name, ticker):
     """
-    Run all calculation functions and return paths to output files.
+    Run the most important calculations on stock and sentiment data.
     
     Args:
         db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
         
     Returns:
-        list: Paths to output files.
+        list: List of output file paths.
     """
     ensure_output_dir()
     output_files = []
+    stock_table = f"{ticker}_weekly_adjusted"
     
-    # Stock statistics
-    print("Calculating stock statistics...")
-    _, output_file = calculate_stock_statistics(db_name, ticker)
-    if output_file:
+    # 1. Calculate basic stock statistics
+    stock_stats = calculate_basic_stats(db_name, stock_table)
+    if stock_stats:
+        output_file = f"{OUTPUT_DIR}/stock_statistics.txt"
+        with open(output_file, 'w') as f:
+            f.write(f"Stock Statistics for {ticker}\n")
+            f.write("-" * 40 + "\n")
+            f.write(f"Total Records: {stock_stats['count']}\n")
+            f.write(f"Date Range: {stock_stats['date_min']} to {stock_stats['date_max']}\n\n")
+            f.write(f"Average Close Price: ${stock_stats['close_mean']:.2f}\n")
+            f.write(f"Minimum Close Price: ${stock_stats['close_min']:.2f}\n")
+            f.write(f"Maximum Close Price: ${stock_stats['close_max']:.2f}\n")
+            f.write(f"Close Price Variance: {stock_stats['close_variance']:.2f}\n\n")
+            f.write(f"Average Volume: {stock_stats['volume_mean']:.0f}\n")
+            f.write(f"Volume Variance: {stock_stats['volume_variance']:.0f}\n")
         output_files.append(output_file)
     
-    # Sentiment statistics
-    print("Calculating sentiment statistics...")
-    _, output_file = calculate_sentiment_statistics(db_name)
-    if output_file:
+    # 2. Calculate sentiment statistics
+    sentiment_stats = calculate_sentiment_stats(db_name)
+    if sentiment_stats:
+        output_file = f"{OUTPUT_DIR}/sentiment_statistics.txt"
+        with open(output_file, 'w') as f:
+            f.write("Sentiment Statistics\n")
+            f.write("-" * 40 + "\n")
+            f.write(f"Total Articles Analyzed: {sentiment_stats['count']}\n\n")
+            f.write(f"Average Sentiment Score: {sentiment_stats['score_mean']:.4f}\n")
+            f.write(f"Minimum Score: {sentiment_stats['score_min']:.4f}\n")
+            f.write(f"Maximum Score: {sentiment_stats['score_max']:.4f}\n")
+            f.write(f"Score Variance: {sentiment_stats['score_variance']:.4f}\n\n")
+            f.write(f"Average Sentiment Magnitude: {sentiment_stats['magnitude_mean']:.4f}\n")
+            f.write(f"Magnitude Variance: {sentiment_stats['magnitude_variance']:.4f}\n\n")
+            f.write(f"Average Combined Sentiment: {sentiment_stats['combined_mean']:.4f}\n")
         output_files.append(output_file)
     
-    # Correlation analysis
-    print("Calculating correlation between stock and sentiment...")
-    _, output_file = calculate_correlation(db_name, ticker)
-    if output_file:
+    # 3. Calculate correlation between stock prices and sentiment
+    correlation_data = calculate_correlation(db_name, stock_table)
+    if correlation_data:
+        output_file = f"{OUTPUT_DIR}/stock_sentiment_correlation.txt"
+        with open(output_file, 'w') as f:
+            f.write(f"Stock Price vs. Sentiment Correlation\n")
+            f.write("-" * 40 + "\n")
+            f.write(f"Number of data points: {correlation_data['count']}\n\n")
+            f.write(f"Stock price vs sentiment score correlation: {correlation_data['price_score_corr']:.4f}\n")
+            f.write(f"Stock price vs sentiment magnitude correlation: {correlation_data['price_magnitude_corr']:.4f}\n")
+            f.write(f"Stock price vs combined sentiment correlation: {correlation_data['price_combined_corr']:.4f}\n\n")
+            f.write(f"Volume vs sentiment score correlation: {correlation_data['volume_score_corr']:.4f}\n")
+            f.write(f"Volume vs sentiment magnitude correlation: {correlation_data['volume_magnitude_corr']:.4f}\n")
         output_files.append(output_file)
     
     return output_files
@@ -299,7 +234,6 @@ if __name__ == "__main__":
     ticker = "SPY"
     
     output_files = run_all_calculations(db_name, ticker)
-    
     print("Calculations complete. Output files:")
     for file in output_files:
-        print(f" - {file}") 
+        print(f"- {file}") 

@@ -148,7 +148,6 @@ def insert_stock_data(data, db_name, ticker, max_items):
         chunk = chunk[:max_items]
         
     if not chunk:
-        print("No new data to insert.")
         conn.close()
         return 0
         

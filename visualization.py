@@ -164,31 +164,33 @@ def visualize_stock_sentiment_scatter(db_name, ticker):
 
 def generate_all_visualizations(db_name, ticker):
     """
-    Generate all visualizations and return paths to output files.
+    Generate all visualizations for the data.
     
     Args:
         db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
         
     Returns:
-        list: Paths to visualization files.
+        list: Paths to generated visualizations.
     """
-    ensure_output_dir()
-    output_files = []
+    # Make sure output directory exists
+    if not os.path.exists('output'):
+        os.makedirs('output')
     
-    # Stock price visualization
-    print("Generating stock price visualization...")
-    viz_file = visualize_stock_price(db_name, ticker)
-    if viz_file:
-        output_files.append(viz_file)
+    # List to collect paths to visualizations
+    visualization_files = []
     
-    # Stock price vs sentiment scatter plot
-    print("Generating stock price vs sentiment scatter plot...")
-    viz_file = visualize_stock_sentiment_scatter(db_name, ticker)
-    if viz_file:
-        output_files.append(viz_file)
+    # Generate the scatter plot
+    scatter_file = visualize_stock_sentiment_scatter(db_name, ticker)
+    if scatter_file:
+        visualization_files.append(scatter_file)
     
-    return output_files
+    # Generate the time series plot
+    time_series_file = visualize_stock_price(db_name, ticker)
+    if time_series_file:
+        visualization_files.append(time_series_file)
+    
+    return visualization_files
 
 if __name__ == "__main__":
     # Example usage

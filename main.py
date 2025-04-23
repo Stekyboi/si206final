@@ -62,51 +62,18 @@ def get_current_counts():
     }
 
 def print_status(before_counts, after_counts):
-    """
-    Print status information.
-    
-    Args:
-        before_counts (dict): Counts before processing.
-        after_counts (dict): Counts after processing.
-    """
+    """Print status information."""
     if before_counts and after_counts:
-        # Print progress
-        print("\n" + "="*60)
-        print(f"PROGRESS REPORT - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print("="*60)
-        print(f"Stock data: {before_counts['stock']} → {after_counts['stock']} records (+{after_counts['stock'] - before_counts['stock']})")
-        print(f"News articles: {before_counts['news']} → {after_counts['news']} articles (+{after_counts['news'] - before_counts['news']})")
-        print(f"Sentiment analysis: {before_counts['sentiment_analyzed']}/{before_counts['sentiment_total']} → {after_counts['sentiment_analyzed']}/{after_counts['sentiment_total']} articles")
-        print("="*60)
-        
-        # Show progress toward 100+ goal
-        print("\nProgress toward 100+ items per API:")
-        print(f"Stock data: {after_counts['stock']}/100 records ({min(after_counts['stock']/100*100, 100):.1f}%)")
-        print(f"News articles: {after_counts['news']}/100 articles ({min(after_counts['news']/100*100, 100):.1f}%)")
-        print(f"Sentiment analysis: {after_counts['sentiment_analyzed']}/{after_counts['sentiment_total']} articles ({min(after_counts['sentiment_analyzed']/100*100, 100):.1f}%)")
+        print(f"\nPROGRESS: Stock {before_counts['stock']} -> {after_counts['stock']} (+{after_counts['stock'] - before_counts['stock']})")
+        print(f"News {before_counts['news']} -> {after_counts['news']} (+{after_counts['news'] - before_counts['news']})")
+        print(f"Sentiment {before_counts['sentiment_analyzed']}/{before_counts['sentiment_total']} -> {after_counts['sentiment_analyzed']}/{after_counts['sentiment_total']}")
+        print(f"Progress: Stock {after_counts['stock']}/100, News {after_counts['news']}/100, Sentiment {after_counts['sentiment_analyzed']}/100")
     else:
-        # Print current status
         counts = get_current_counts()
-        print("\n" + "="*60)
-        print(f"CURRENT STATUS - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        print("="*60)
-        print(f"Stock data: {counts['stock']} records")
-        print(f"News articles: {counts['news']} articles")
-        print(f"Sentiment analysis: {counts['sentiment_analyzed']}/{counts['sentiment_total']} articles")
-        print("="*60)
-        
-        # Show progress toward 100+ goal
-        print("\nProgress toward 100+ items per API:")
-        print(f"Stock data: {counts['stock']}/100 records ({min(counts['stock']/100*100, 100):.1f}%)")
-        print(f"News articles: {counts['news']}/100 articles ({min(counts['news']/100*100, 100):.1f}%)")
-        print(f"Sentiment analysis: {counts['sentiment_analyzed']}/100 articles ({min(counts['sentiment_analyzed']/100*100, 100):.1f}%)")
+        print(f"\nCURRENT: Stock {counts['stock']}/100, News {counts['news']}/100, Sentiment {counts['sentiment_analyzed']}/{counts['sentiment_total']}")
 
 def process_data():
-    """
-    Main function to process the next batch of data.
-    Each API will process exactly 25 items per run.
-    Returns True if processing was successful, False otherwise.
-    """
+    """Process the next batch of data."""
     # Check API keys
     missing_keys = check_api_keys()
     if missing_keys:
@@ -118,7 +85,7 @@ def process_data():
     # Get counts before processing
     before_counts = get_current_counts()
     
-    # Process stock data - always 25 items per run
+    # Process stock data
     print("\nProcessing stock data...")
     try:
         stock_inserted = stock_api.get_stock_data(
@@ -127,11 +94,11 @@ def process_data():
             db_name=UNIFIED_DB,
             api_key_path=STOCK_API_KEY_PATH
         )
-        print(f"Stock data processed successfully. Inserted {stock_inserted} new records.")
+        print(f"Stock: +{stock_inserted} records")
     except Exception as e:
         print(f"Error processing stock data: {e}")
     
-    # Process news data - always up to 25 items per run
+    # Process news data
     print("\nProcessing news data...")
     try:
         news_inserted = news_api.get_news_data(
@@ -139,18 +106,18 @@ def process_data():
             db_name=UNIFIED_DB,
             api_key_path=NEWS_API_KEY_PATH
         )
-        print(f"News data processed successfully. Inserted {news_inserted} new articles.")
+        print(f"News: +{news_inserted} articles")
     except Exception as e:
         print(f"Error processing news data: {e}")
     
-    # Process sentiment analysis - always up to 25 items per run
+    # Process sentiment analysis
     print("\nProcessing sentiment analysis...")
     try:
         sentiment_processed = sentiment_api.process_sentiment(
             db_name=UNIFIED_DB,
             max_items=MAX_ITEMS_PER_RUN
         )
-        print(f"Sentiment analysis processed successfully. Analyzed {sentiment_processed} articles.")
+        print(f"Sentiment: +{sentiment_processed} articles")
     except Exception as e:
         print(f"Error processing sentiment analysis: {e}")
     
@@ -164,51 +131,40 @@ def process_data():
 
 def generate_results():
     """Generate calculations and visualizations from the data."""
-    print("\nGenerating calculations...")
+    print("\nGenerating calculations and visualizations...")
+    
     calculation_files = calculations.run_all_calculations(
         db_name=UNIFIED_DB,
         ticker=STOCK_TICKER
     )
     
-    print("\nGenerating visualizations...")
     visualization_files = visualization.generate_all_visualizations(
         db_name=UNIFIED_DB,
         ticker=STOCK_TICKER
     )
     
-    print("\nResults generated successfully:")
-    print("Calculation files:")
+    print("Results generated:")
     for file in calculation_files:
-        print(f" - {file}")
+        print(f"- {file}")
     
-    print("\nVisualization files:")
     for file in visualization_files:
-        print(f" - {file}")
+        print(f"- {file}")
 
 def main():
     """Main function."""
-    print("SI 206 Final Project - Stock Market and News Sentiment Analysis")
-    print("="*60)
+    print("SI 206 Final Project")
     
     create_required_directories()
-    
-    # Print current status
     print_status(None, None)
     
-    # Process data
     if process_data():
-        # Generate results if needed
         total_count = get_current_counts()
         if total_count['stock'] >= 100 and total_count['news'] >= 100:
-            print("\nSufficient data collected. Generating results...")
             generate_results()
         else:
-            print(f"\nData collection still in progress.")
-            print(f"Stock data: {total_count['stock']}/100 records")
-            print(f"News data: {total_count['news']}/100 articles")
-            print("\nPlease run this script again to collect more data.")
+            print(f"\nData collection in progress. Run again to collect more data.")
     
-    print("\nDone!")
+    print("Done!")
 
 if __name__ == "__main__":
     main() 

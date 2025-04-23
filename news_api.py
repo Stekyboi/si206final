@@ -171,7 +171,7 @@ def insert_news_articles(articles, db_name, max_items):
                 inserted += 1
                 
         except Exception as e:
-            print(f"Error inserting article {uuid}: {e}")
+            pass
     
     conn.commit()
     conn.close()
