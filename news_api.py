@@ -16,6 +16,12 @@ PROGRESS_FILE = 'news_fetch_progress.json'
 BASE_URL = "https://api.thenewsapi.com/v1/news/top"
 MAX_ITEMS_PER_RUN = 25  # Maximum items to insert per run
 
+# Date range constants
+START_YEAR = 2021
+START_MONTH = 1
+END_YEAR = 2024
+END_MONTH = 12
+
 def create_news_tables(db_name):
     """
     Create the necessary tables in the database for news articles.
@@ -65,7 +71,7 @@ def load_progress():
     if os.path.exists(PROGRESS_FILE):
         with open(PROGRESS_FILE, 'r') as f:
             return json.load(f)
-    return {"current_year": 2021, "current_month": 1, "offset": 0}
+    return {"current_year": START_YEAR, "current_month": START_MONTH, "run_count": 0}
 
 def save_progress(state):
     """
@@ -181,10 +187,13 @@ def insert_news_articles(articles, db_name, max_items):
 def get_news_data(max_items, db_name, api_key_path):
     """
     Main function to fetch and store news articles.
-    Manages progress tracking across runs to fetch 25 items at a time.
+    Manages progress tracking across runs to fetch news data month by month.
+    
+    First 3 runs: Process Jan, Feb, Mar 2021 one month per run
+    After 3 runs: Process remaining months (Apr 2021 - Dec 2024) in batches
     
     Args:
-        max_items (int): Maximum number of items to insert per run.
+        max_items (int): Maximum number of items to insert per month.
         db_name (str): Database file name.
         api_key_path (str): Path to file containing API key.
         
@@ -197,58 +206,66 @@ def get_news_data(max_items, db_name, api_key_path):
     progress = load_progress()
     year = progress["current_year"]
     month = progress["current_month"]
+    run_count = progress.get("run_count", 0)
+    
+    # Increment run count
+    run_count += 1
+    progress["run_count"] = run_count
     
     # Keep track of total inserted this run
     total_inserted = 0
     
-    # Continue fetching until we have max_items or can't fetch more
-    while total_inserted < max_items:
-        # Fetch articles for the current year/month
+    # First 3 runs: Process exactly one month per run (Jan, Feb, Mar 2021)
+    if run_count <= 3:
+        # For first 3 runs, set the month based on run count
+        year = START_YEAR
+        month = run_count  # 1, 2, or 3 for Jan, Feb, Mar
+        
+        # Fetch articles for this month
         articles = fetch_news_articles(year, month, api_key_path)
-        
-        # If no articles for this month, move to next month
-        if not articles:
-            month += 1
-            if month > 12:
-                month = 1
-                year += 1
-            progress["current_month"] = month
-            progress["current_year"] = year
-            progress["offset"] = 0
-            save_progress(progress)
-            continue
-        
-        # Calculate how many more we need
-        remaining = max_items - total_inserted
-        
-        # Insert articles into the database
-        inserted = insert_news_articles(articles, db_name, remaining)
+        inserted = insert_news_articles(articles, db_name, max_items)
         total_inserted += inserted
         
-        # If we didn't get as many as we wanted, move to next month
-        if inserted < remaining and inserted < len(articles):
-            # Move to next month
-            month += 1
-            if month > 12:
-                month = 1
-                year += 1
-            progress["current_month"] = month
-            progress["current_year"] = year
-            progress["offset"] = 0
+        # Update progress for next run
+        if month < 3:
+            # Move to next month for runs 1 and 2
+            next_month = month + 1
+            next_year = year
         else:
-            # Same month, just update offset
-            progress["offset"] += inserted
+            # After run 3, move to April 2021
+            next_month = 4
+            next_year = year
         
-        # Save progress
+        progress["current_year"] = next_year
+        progress["current_month"] = next_month
         save_progress(progress)
         
-        # If we didn't insert anything and moved to a new month/year, 
-        # but still haven't reached max_items, continue the loop
-        if inserted == 0 and total_inserted < max_items:
-            continue
+        print(f"Run {run_count}: Processed {year}-{month:02d}, inserted {inserted} articles")
+        return total_inserted
+    
+    # Run 4+: Process multiple months
+    # Only continue if we're within the specified date range
+    while (year < END_YEAR or (year == END_YEAR and month <= END_MONTH)):
+        # Fetch articles for the current year/month
+        articles = fetch_news_articles(year, month, api_key_path)
+        inserted = insert_news_articles(articles, db_name, max_items)
+        total_inserted += inserted
         
-        # If we got what we wanted or couldn't get more, break
-        if total_inserted >= max_items or inserted == 0:
+        print(f"Processed {year}-{month:02d}, inserted {inserted} articles")
+        
+        # Move to next month
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+        
+        # Update progress
+        progress["current_year"] = year
+        progress["current_month"] = month
+        save_progress(progress)
+        
+        # Stop if we've reached the end of our date range
+        if year > END_YEAR or (year == END_YEAR and month > END_MONTH):
             break
     
     return total_inserted
