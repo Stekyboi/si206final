@@ -209,7 +209,7 @@ def count_sentiment_records(db_name):
         # Tables don't exist
         total = 0
         analyzed = 0
-        
+    
     conn.close()
     return analyzed, total
 

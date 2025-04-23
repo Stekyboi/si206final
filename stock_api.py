@@ -4,7 +4,7 @@ This module handles fetching, processing, and storing stock data in SQLite datab
 """
 import sqlite3
 import requests
-from api_keys import get_alpha_vantage_key
+from api_keys import get_stock_api_key
 
 # Database information
 DB_NAME = 'stock_and_news.db'
@@ -66,7 +66,7 @@ def fetch_stock_data(ticker, api_key_path):
     Returns:
         dict: JSON data from the API or raises an exception on failure.
     """
-    api_key = get_alpha_vantage_key(api_key_path)
+    api_key = get_stock_api_key(api_key_path)
     
     url = "https://www.alphavantage.co/query"
     params = {
@@ -90,15 +90,18 @@ def fetch_stock_data(ticker, api_key_path):
 
 def insert_stock_data(data, db_name, ticker, max_items):
     """
-    Insert up to max_items weekly data points into the database.
-    First three runs insert earliest non-inserted values, subsequent runs
-    insert the entire API response.
+    Insert stock data points into the database.
+    
+    Behavior varies by run count:
+    - First three runs (run_count < 3): Insert up to max_items earliest non-inserted values
+    - Fourth run and beyond (run_count >= 3): Insert ALL remaining data points from the API response
+      without limiting to max_items, ensuring the complete stock history is stored
     
     Args:
         data (dict): API response data containing time series.
         db_name (str): Database file name.
         ticker (str): Stock ticker symbol.
-        max_items (int): Maximum number of items to insert in one run.
+        max_items (int): Maximum number of items to insert in one run (only applies to first three runs).
         
     Returns:
         int: Number of new records inserted.
@@ -133,7 +136,8 @@ def insert_stock_data(data, db_name, ticker, max_items):
                 if len(chunk) >= max_items:
                     break
     else:
-        # After third run, insert all remaining data
+        # After third run, insert all remaining data from the API response
+        # This ensures on the 4th run we get the complete stock history without limiting to max_items
         existing_dates = set()
         cur.execute(f"SELECT date FROM {table_name}")
         for row in cur.fetchall():
@@ -143,8 +147,8 @@ def insert_stock_data(data, db_name, ticker, max_items):
             if date not in existing_dates:
                 chunk.append(date)
     
-    # If we have too many, limit to max_items
-    if len(chunk) > max_items:
+    # If we have too many, limit to max_items only for the first three runs
+    if run_count < 3 and len(chunk) > max_items:
         chunk = chunk[:max_items]
         
     if not chunk:
@@ -175,6 +179,11 @@ def insert_stock_data(data, db_name, ticker, max_items):
     new_run_count = run_count + 1
     new_last_date = chunk[-1] if chunk else last_date
     
+    # If this is the 4th run or later and we didn't insert anything, 
+    # still increment the run_count to avoid getting stuck
+    if run_count >= 3 and not inserted:
+        print(f"No more data available to insert for {ticker} after run {run_count+1}.")
+    
     if row:
         cur.execute(
             "UPDATE fetch_state_stocks SET last_date_processed = ?, run_count = ? WHERE table_name = ?",
@@ -196,9 +205,14 @@ def get_stock_data(ticker, max_items, db_name, api_key_path):
     Main function to fetch and store stock data.
     Creates tables if needed, fetches data, and inserts it into the database.
     
+    Behavior varies by run count:
+    - First three runs: Insert up to max_items earliest stock data points
+    - Fourth run and beyond: Insert ALL remaining data points from the API response,
+      ensuring the complete stock history is stored
+    
     Args:
         ticker (str): Stock ticker symbol.
-        max_items (int): Maximum number of items to insert in one run.
+        max_items (int): Maximum number of items to insert in first three runs.
         db_name (str): Database file name.
         api_key_path (str): Path to file containing API key.
         
@@ -242,7 +256,7 @@ if __name__ == "__main__":
     ticker = "SPY"
     max_items = 25
     db_name = DB_NAME
-    api_key_path = "api_key.txt"
+    api_key_path = "api_key_stocks.txt"
     
     created = create_stock_tables(db_name, ticker)
     inserted = get_stock_data(ticker, max_items, db_name, api_key_path)

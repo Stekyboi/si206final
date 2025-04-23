@@ -166,13 +166,13 @@ def insert_news_articles(articles, db_name, max_items):
                 article.get("snippet", "")
             ))
             
-            # Check if article was inserted (not a duplicate)
+            # Check if article was inserted/not a duplicate
             if cur.rowcount > 0:
                 # Get the article ID
                 cur.execute("SELECT id FROM articles WHERE article_uuid = ?", (uuid,))
                 article_id = cur.fetchone()[0]
                 
-                # Initialize the sentiment record
+                # Create the sentiment record
                 cur.execute("INSERT OR IGNORE INTO sentiment (article_id) VALUES (?)", (article_id,))
                 inserted += 1
                 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
     # Example usage
     db_name = DB_NAME
     max_items = MAX_ITEMS_PER_RUN
-    api_key_path = "api_key_thenewsapi.txt"
+    api_key_path = "api_key_news.txt"
     
     created = create_news_tables(db_name)
     inserted = get_news_data(max_items, db_name, api_key_path)
